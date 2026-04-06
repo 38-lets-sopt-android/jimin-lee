@@ -44,4 +44,4 @@ fun GreetingPreview() {
     LETSSOPTTheme {
         Greeting("Android")
     }
-} // pr 테스트용 커밋
+}
