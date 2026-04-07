@@ -1,6 +1,7 @@
 package com.example.letssopt.presentation
 
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -31,6 +32,9 @@ import com.example.letssopt.component.text.LogoText
 import com.example.letssopt.component.text.ScreenText
 import com.example.letssopt.ui.theme.LETSSOPTTheme
 
+private val emailRegex = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
+private val passwordRegex = Regex("^.{8,12}$")
+
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,10 +54,44 @@ class SignUpActivity : ComponentActivity() {
                         onEmailChange = { email = it },
                         onPasswordChange = { password = it },
                         onPasswordCheckChange = { passwordCheck = it },
-                        onSignUpBtnClick = {},
+                        onSignUpBtnClick = {
+                            checkValidation(
+                                email = email,
+                                password = password,
+                                passwordCheck = passwordCheck,
+                            )
+                        },
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
+            }
+        }
+    }
+
+    private fun checkValidation(
+        email: String,
+        password: String,
+        passwordCheck: String,
+    ) {
+        val isEmailValid = email.matches(emailRegex)
+        val isPasswordValid = password.matches(passwordRegex)
+        val isPasswordMatch = password == passwordCheck
+
+        when {
+            !isEmailValid -> {
+                Toast.makeText(this, "이메일 형식이 잘못되었습니다", Toast.LENGTH_SHORT).show()
+            }
+
+            !isPasswordValid -> {
+                Toast.makeText(this, "비밀번호는 8~12자로 입력해주세요", Toast.LENGTH_SHORT).show()
+            }
+
+            !isPasswordMatch -> {
+                Toast.makeText(this, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
+            }
+
+            else -> {
+                Toast.makeText(this, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()
             }
         }
     }
