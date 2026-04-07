@@ -11,17 +11,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
-import androidx.compose.foundation.text.input.TextFieldLineLimits
-import androidx.compose.foundation.text.input.TextFieldState
-import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.ui.theme.LETSSOPTTheme
@@ -29,16 +30,19 @@ import com.example.letssopt.ui.theme.LETSSOPTTheme
 @Composable
 fun LetsSoptTextField(
     title: String,
-    state: TextFieldState,
+    value: String,
     placeholder: String,
+    onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     inputTextColor: Color = LETSSOPTTheme.colors.txtPrimary,
     textStyle: TextStyle = LETSSOPTTheme.typography.caption.regular14,
-    suffix: (@Composable (() -> Unit))? = null
+    visualTransformation: VisualTransformation = VisualTransformation.None,
+    interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
-    Column (
+
+    Column(
         modifier = modifier,
-    ){
+    ) {
         Text(
             text = title,
             color = LETSSOPTTheme.colors.txtSecondary,
@@ -53,27 +57,30 @@ fun LetsSoptTextField(
                     color = LETSSOPTTheme.colors.surface,
                     shape = RoundedCornerShape(8.dp),
                 ),
-        ){
+        ) {
             BasicTextField(
-                state = state,
+                value = value,
+                onValueChange = onValueChange,
                 modifier = Modifier,
                 textStyle = textStyle.copy(
                     color = inputTextColor,
                 ),
-                lineLimits = TextFieldLineLimits.SingleLine,
-                interactionSource = remember { MutableInteractionSource() },
+                singleLine = true,
+                visualTransformation = visualTransformation,
+                interactionSource = interactionSource,
                 cursorBrush = SolidColor(inputTextColor),
-                decorator = { innerTextField ->
+                decorationBox = { innerTextField ->
                     Row(
                         modifier = Modifier.fillMaxWidth(),
                         verticalAlignment = Alignment.Top,
                     ) {
+
                         Box(
                             modifier = Modifier
                                 .padding(start = 16.dp, top = 18.dp, bottom = 17.dp),
                             contentAlignment = Alignment.TopStart,
                         ) {
-                            if (state.text.isEmpty()) {
+                            if (value.isEmpty()) {
                                 Text(
                                     text = placeholder,
                                     style = textStyle,
@@ -82,9 +89,8 @@ fun LetsSoptTextField(
                             }
                             innerTextField()
                         }
-                        suffix?.invoke()
                     }
-                }
+                },
             )
         }
     }
@@ -94,15 +100,17 @@ fun LetsSoptTextField(
 @Composable
 private fun LetsSoptTextFieldPreview() {
     LETSSOPTTheme {
-        val state = rememberTextFieldState()
+        var value by remember { mutableStateOf("") }
+
         Box(
             modifier = Modifier
                 .padding(20.dp),
         ) {
             LetsSoptTextField(
                 title = "이메일",
-                state = state,
+                value = value,
                 placeholder = "이메일 주소를 입력하세요",
+                onValueChange = { value = it },
             )
         }
     }

@@ -12,11 +12,15 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.component.LetsSoptButton
@@ -49,6 +53,13 @@ private fun SignUpScreen(
     onSignUpBtnClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var passwordCheck by remember { mutableStateOf("") }
+
+    val passwordVisualTransformation = remember { PasswordVisualTransformation() }
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -73,7 +84,8 @@ private fun SignUpScreen(
 
         LetsSoptTextField(
             title = "이메일",
-            state = rememberTextFieldState(),
+            value = email,
+            onValueChange = { email = it },
             placeholder = "이메일 주소를 입력하세요",
             modifier = Modifier,
         )
@@ -82,18 +94,22 @@ private fun SignUpScreen(
 
         LetsSoptTextField(
             title = "비밀번호",
-            state = rememberTextFieldState(),
+            value = password,
+            onValueChange = { password = it },
             placeholder = "비밀번호를 입력하세요",
             modifier = Modifier,
+            visualTransformation = passwordVisualTransformation,
         )
 
         Spacer(modifier = Modifier.height(18.dp))
 
         LetsSoptTextField(
             title = "비밀번호 확인",
-            state = rememberTextFieldState(),
+            value = passwordCheck,
+            onValueChange = { passwordCheck = it },
             placeholder = "비밀번호를 다시 입력하세요",
             modifier = Modifier,
+            visualTransformation = passwordVisualTransformation,
         )
 
         Spacer(modifier = Modifier.weight(1f))
