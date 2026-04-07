@@ -30,6 +30,7 @@ import com.example.letssopt.component.LetsSoptTextField
 import com.example.letssopt.component.text.LogoText
 import com.example.letssopt.component.text.ScreenText
 import com.example.letssopt.ui.theme.LETSSOPTTheme
+import com.example.letssopt.utils.noRippleClickable
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -109,7 +110,7 @@ private fun LoginScreen(
         Text(
             text = "아직 계정이 없으신가요? 회원가입",
             modifier = Modifier
-                .clickable(
+                .noRippleClickable(
                     onClick = onSignUpTxtClick,
                 ),
             color = LETSSOPTTheme.colors.txtSecondary,
