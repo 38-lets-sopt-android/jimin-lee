@@ -36,7 +36,8 @@ fun LetsSoptButton(
                 shape = RoundedCornerShape(8.dp),
             )
             .noRippleClickable(
-                onClick = onClick
+                onClick = onClick,
+                enabled = enabled,
             )
             .padding(vertical = 16.dp),
         contentAlignment = Alignment.Center,
