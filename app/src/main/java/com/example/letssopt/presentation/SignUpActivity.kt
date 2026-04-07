@@ -39,7 +39,6 @@ class SignUpActivity : ComponentActivity() {
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     SignUpScreen(
-                        btnEnabled = true,
                         onSignUpBtnClick = {},
                         modifier = Modifier.padding(innerPadding)
                     )
@@ -51,7 +50,6 @@ class SignUpActivity : ComponentActivity() {
 
 @Composable
 private fun SignUpScreen(
-    btnEnabled: Boolean,
     onSignUpBtnClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -61,6 +59,8 @@ private fun SignUpScreen(
     var passwordCheck by remember { mutableStateOf("") }
 
     val passwordVisualTransformation = remember { PasswordVisualTransformation() }
+
+    val isBtnEnabled = email.isNotEmpty() && password.isNotEmpty() && passwordCheck.isNotEmpty()
 
     Column(
         modifier = modifier
@@ -120,7 +120,7 @@ private fun SignUpScreen(
 
         LetsSoptButton(
             btnText = "회원가입",
-            enabled = btnEnabled,
+            enabled = isBtnEnabled,
             onClick = onSignUpBtnClick,
             modifier = Modifier,
         )
@@ -133,7 +133,6 @@ private fun SignUpScreen(
 private fun SignUpScreenPreview() {
     LETSSOPTTheme {
         SignUpScreen(
-            btnEnabled = true,
             onSignUpBtnClick = {},
         )
     }
