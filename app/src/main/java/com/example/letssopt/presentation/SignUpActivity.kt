@@ -36,9 +36,20 @@ class SignUpActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+
+            var email by remember { mutableStateOf("") }
+            var password by remember { mutableStateOf("") }
+            var passwordCheck by remember { mutableStateOf("") }
+
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     SignUpScreen(
+                        email = email,
+                        password = password,
+                        passwordCheck = passwordCheck,
+                        onEmailChange = { email = it },
+                        onPasswordChange = { password = it },
+                        onPasswordCheckChange = { passwordCheck = it },
                         onSignUpBtnClick = {},
                         modifier = Modifier.padding(innerPadding)
                     )
@@ -50,13 +61,15 @@ class SignUpActivity : ComponentActivity() {
 
 @Composable
 private fun SignUpScreen(
+    email: String,
+    password: String,
+    passwordCheck: String,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
+    onPasswordCheckChange: (String) -> Unit,
     onSignUpBtnClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
-    var passwordCheck by remember { mutableStateOf("") }
 
     val passwordVisualTransformation = remember { PasswordVisualTransformation() }
 
@@ -87,7 +100,7 @@ private fun SignUpScreen(
         LetsSoptTextField(
             title = "이메일",
             value = email,
-            onValueChange = { email = it },
+            onValueChange = onEmailChange,
             placeholder = "이메일 주소를 입력하세요",
             modifier = Modifier,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -98,7 +111,7 @@ private fun SignUpScreen(
         LetsSoptTextField(
             title = "비밀번호",
             value = password,
-            onValueChange = { password = it },
+            onValueChange = onPasswordChange,
             placeholder = "비밀번호를 입력하세요",
             modifier = Modifier,
             visualTransformation = passwordVisualTransformation,
@@ -110,7 +123,7 @@ private fun SignUpScreen(
         LetsSoptTextField(
             title = "비밀번호 확인",
             value = passwordCheck,
-            onValueChange = { passwordCheck = it },
+            onValueChange = onPasswordCheckChange,
             placeholder = "비밀번호를 다시 입력하세요",
             modifier = Modifier,
             visualTransformation = passwordVisualTransformation,
@@ -131,8 +144,19 @@ private fun SignUpScreen(
 @Preview(showBackground = true)
 @Composable
 private fun SignUpScreenPreview() {
+
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var passwordCheck by remember { mutableStateOf("") }
+
     LETSSOPTTheme {
         SignUpScreen(
+            email = email,
+            password = password,
+            passwordCheck = passwordCheck,
+            onEmailChange = { email = it },
+            onPasswordChange = { password = it },
+            onPasswordCheckChange = { passwordCheck = it },
             onSignUpBtnClick = {},
         )
     }
