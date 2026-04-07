@@ -43,22 +43,22 @@ class SignUpActivity : ComponentActivity() {
 
             var email by remember { mutableStateOf("") }
             var password by remember { mutableStateOf("") }
-            var passwordCheck by remember { mutableStateOf("") }
+            var passwordConfirm by remember { mutableStateOf("") }
 
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     SignUpScreen(
                         email = email,
                         password = password,
-                        passwordCheck = passwordCheck,
+                        passwordConfirm = passwordConfirm,
                         onEmailChange = { email = it },
                         onPasswordChange = { password = it },
-                        onPasswordCheckChange = { passwordCheck = it },
+                        onPasswordConfirmChange = { passwordConfirm = it },
                         onSignUpBtnClick = {
                             checkValidation(
                                 email = email,
                                 password = password,
-                                passwordCheck = passwordCheck,
+                                passwordConfirm = passwordConfirm,
                             )
                         },
                         modifier = Modifier.padding(innerPadding)
@@ -71,11 +71,11 @@ class SignUpActivity : ComponentActivity() {
     private fun checkValidation(
         email: String,
         password: String,
-        passwordCheck: String,
+        passwordConfirm: String,
     ) {
         val isEmailValid = email.matches(emailRegex)
         val isPasswordValid = password.matches(passwordRegex)
-        val isPasswordMatch = password == passwordCheck
+        val isPasswordMatch = password == passwordConfirm
 
         when {
             !isEmailValid -> {
@@ -101,17 +101,17 @@ class SignUpActivity : ComponentActivity() {
 private fun SignUpScreen(
     email: String,
     password: String,
-    passwordCheck: String,
+    passwordConfirm: String,
     onEmailChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
-    onPasswordCheckChange: (String) -> Unit,
+    onPasswordConfirmChange: (String) -> Unit,
     onSignUpBtnClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
 
     val passwordVisualTransformation = remember { PasswordVisualTransformation() }
 
-    val isBtnEnabled = email.isNotEmpty() && password.isNotEmpty() && passwordCheck.isNotEmpty()
+    val isBtnEnabled = email.isNotEmpty() && password.isNotEmpty() && passwordConfirm.isNotEmpty()
 
     Column(
         modifier = modifier
@@ -160,8 +160,8 @@ private fun SignUpScreen(
 
         LetsSoptTextField(
             title = "비밀번호 확인",
-            value = passwordCheck,
-            onValueChange = onPasswordCheckChange,
+            value = passwordConfirm,
+            onValueChange = onPasswordConfirmChange,
             placeholder = "비밀번호를 다시 입력하세요",
             modifier = Modifier,
             visualTransformation = passwordVisualTransformation,
@@ -185,16 +185,16 @@ private fun SignUpScreenPreview() {
 
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
-    var passwordCheck by remember { mutableStateOf("") }
+    var passwordConfirm by remember { mutableStateOf("") }
 
     LETSSOPTTheme {
         SignUpScreen(
             email = email,
             password = password,
-            passwordCheck = passwordCheck,
+            passwordConfirm = passwordConfirm,
             onEmailChange = { email = it },
             onPasswordChange = { password = it },
-            onPasswordCheckChange = { passwordCheck = it },
+            onPasswordConfirmChange = { passwordConfirm = it },
             onSignUpBtnClick = {},
         )
     }
