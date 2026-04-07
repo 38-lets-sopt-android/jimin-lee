@@ -47,7 +47,7 @@ class LoginActivity : ComponentActivity() {
 }
 
 @Composable
-fun LoginScreen(
+private fun LoginScreen(
     btnEnabled: Boolean,
     onSignUpTxtClick: () -> Unit,
     onLoginBtnClick: () -> Unit,
@@ -116,7 +116,7 @@ fun LoginScreen(
 
 @Preview(showBackground = true)
 @Composable
-fun LoginScreenPreview() {
+private fun LoginScreenPreview() {
     LETSSOPTTheme {
         LoginScreen(
             btnEnabled = true,
