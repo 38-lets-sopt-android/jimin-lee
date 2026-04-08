@@ -44,8 +44,8 @@ import com.example.letssopt.core.designsystem.component.LetsSoptTextField
 import com.example.letssopt.core.designsystem.component.text.LogoText
 import com.example.letssopt.core.designsystem.component.text.ScreenText
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.core.utils.IntentKeys
 import com.example.letssopt.core.extension.noRippleClickable
+import com.example.letssopt.core.utils.IntentKeys
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

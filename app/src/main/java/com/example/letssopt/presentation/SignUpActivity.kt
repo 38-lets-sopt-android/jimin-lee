@@ -135,7 +135,7 @@ private fun SignUpScreen(
 
     val isBtnEnabled = email.isNotEmpty() && password.isNotEmpty() && passwordConfirm.isNotEmpty()
 
-    Column (
+    Column(
         modifier = modifier
             .fillMaxSize()
             .background(
