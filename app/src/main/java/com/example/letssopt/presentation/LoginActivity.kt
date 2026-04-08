@@ -1,11 +1,14 @@
 package com.example.letssopt.presentation
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
+import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -40,15 +43,71 @@ class LoginActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
+
+            var email by remember { mutableStateOf("") }
+            var password by remember { mutableStateOf("") }
+
+            var emailResult by remember { mutableStateOf("") }
+            var passwordResult by remember { mutableStateOf("") }
+
+            val launcher = rememberLauncherForActivityResult(
+                contract = ActivityResultContracts.StartActivityForResult()
+            ) { result ->
+                if (result.resultCode == RESULT_OK) {
+                    emailResult = result.data?.getStringExtra("emailKey") ?: ""
+                    passwordResult = result.data?.getStringExtra("passwordKey") ?: ""
+                }
+            }
+
             LETSSOPTTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     LoginScreen(
-                        btnEnabled = true,
-                        onSignUpTxtClick = {},
-                        onLoginBtnClick = {},
+                        email = email,
+                        password = password,
+                        onEmailChange = { email = it },
+                        onPasswordChange = { password = it },
+                        onSignUpTxtClick = {
+                            val intent = Intent(this, SignUpActivity::class.java)
+                            launcher.launch(intent)
+                        },
+                        onLoginBtnClick = {
+                            handleLoginResult(
+                                email = email,
+                                password = password,
+                                emailResult = emailResult,
+                                passwordResult = passwordResult,
+                            )
+                        },
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
+            }
+        }
+    }
+
+    private fun handleLoginResult(
+        email: String,
+        password: String,
+        emailResult: String,
+        passwordResult: String,
+    ) {
+
+        when {
+            email.isBlank() || password.isBlank() -> {
+                Toast.makeText(this, "아이디와 비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show()
+            }
+
+            email != emailResult || password != passwordResult -> {
+                Toast.makeText(this, "아이디 또는 비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
+            }
+
+            else -> {
+                Toast.makeText(this, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
+
+                val intent = Intent(this, MainActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                }
+                startActivity(intent)
             }
         }
     }
@@ -56,14 +115,14 @@ class LoginActivity : ComponentActivity() {
 
 @Composable
 private fun LoginScreen(
-    btnEnabled: Boolean,
+    email: String,
+    password: String,
+    onEmailChange: (String) -> Unit,
+    onPasswordChange: (String) -> Unit,
     onSignUpTxtClick: () -> Unit,
     onLoginBtnClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
-    var email by remember { mutableStateOf("") }
-    var password by remember { mutableStateOf("") }
 
     val passwordVisualTransformation = remember { PasswordVisualTransformation() }
 
@@ -92,7 +151,7 @@ private fun LoginScreen(
         LetsSoptTextField(
             title = "이메일",
             value = email,
-            onValueChange = { email = it },
+            onValueChange = onEmailChange,
             placeholder = "이메일 주소를 입력하세요",
             modifier = Modifier,
             keyboardOptions = KeyboardOptions(
@@ -106,7 +165,7 @@ private fun LoginScreen(
         LetsSoptTextField(
             title = "비밀번호",
             value = password,
-            onValueChange = { password = it },
+            onValueChange = onPasswordChange,
             placeholder = "비밀번호를 입력하세요",
             modifier = Modifier,
             visualTransformation = passwordVisualTransformation
@@ -128,7 +187,7 @@ private fun LoginScreen(
 
         LetsSoptButton(
             btnText = "로그인",
-            enabled = btnEnabled,
+            enabled = true,
             onClick = onLoginBtnClick,
             modifier = Modifier,
         )
@@ -138,9 +197,16 @@ private fun LoginScreen(
 @Preview(showBackground = true)
 @Composable
 private fun LoginScreenPreview() {
+
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+
     LETSSOPTTheme {
         LoginScreen(
-            btnEnabled = true,
+            email = email,
+            password = password,
+            onEmailChange = { email = it },
+            onPasswordChange = { password = it },
             onSignUpTxtClick = {},
             onLoginBtnClick = {},
         )
