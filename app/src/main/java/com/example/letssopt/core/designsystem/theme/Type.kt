@@ -1,24 +1,20 @@
-package com.example.letssopt.ui.theme
+package com.example.letssopt.core.designsystem.theme
 
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.staticCompositionLocalOf
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import androidx.compose.ui.unit.sp
 import com.example.letssopt.R
-import com.example.letssopt.ui.theme.LETSSOPTTheme.typography
+import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme.typography
 
 object PretendardFont {
     val Regular = FontFamily(Font(R.font.pretendard_regular))

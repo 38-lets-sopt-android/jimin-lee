@@ -1,4 +1,4 @@
-package com.example.letssopt.utils
+package com.example.letssopt.core.utils
 
 object IntentKeys {
     const val KEY_EMAIL = "emailKey"

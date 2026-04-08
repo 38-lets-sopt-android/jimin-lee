@@ -35,12 +35,12 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.letssopt.component.LetsSoptButton
-import com.example.letssopt.component.LetsSoptTextField
-import com.example.letssopt.component.text.LogoText
-import com.example.letssopt.component.text.ScreenText
-import com.example.letssopt.ui.theme.LETSSOPTTheme
-import com.example.letssopt.utils.IntentKeys
+import com.example.letssopt.core.designsystem.component.LetsSoptButton
+import com.example.letssopt.core.designsystem.component.LetsSoptTextField
+import com.example.letssopt.core.designsystem.component.text.LogoText
+import com.example.letssopt.core.designsystem.component.text.ScreenText
+import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
+import com.example.letssopt.core.utils.IntentKeys
 
 private val emailRegex = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
 private val passwordRegex = Regex("^.{8,12}$")

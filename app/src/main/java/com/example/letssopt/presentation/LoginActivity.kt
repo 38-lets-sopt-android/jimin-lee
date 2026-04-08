@@ -10,7 +10,6 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -40,13 +39,13 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.letssopt.component.LetsSoptButton
-import com.example.letssopt.component.LetsSoptTextField
-import com.example.letssopt.component.text.LogoText
-import com.example.letssopt.component.text.ScreenText
-import com.example.letssopt.ui.theme.LETSSOPTTheme
-import com.example.letssopt.utils.IntentKeys
-import com.example.letssopt.utils.noRippleClickable
+import com.example.letssopt.core.designsystem.component.LetsSoptButton
+import com.example.letssopt.core.designsystem.component.LetsSoptTextField
+import com.example.letssopt.core.designsystem.component.text.LogoText
+import com.example.letssopt.core.designsystem.component.text.ScreenText
+import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
+import com.example.letssopt.core.utils.IntentKeys
+import com.example.letssopt.core.extension.noRippleClickable
 
 class LoginActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
