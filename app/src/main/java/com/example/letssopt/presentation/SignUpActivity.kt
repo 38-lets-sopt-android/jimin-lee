@@ -1,5 +1,6 @@
 package com.example.letssopt.presentation
 
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -91,7 +92,15 @@ class SignUpActivity : ComponentActivity() {
             }
 
             else -> {
+                val intent = Intent(this, LoginActivity::class.java).apply {
+                    putExtra("emailKey", email)
+                    putExtra("passwordKey", password)
+                }
+
                 Toast.makeText(this, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()
+
+                setResult(RESULT_OK, intent)
+                finish()
             }
         }
     }
