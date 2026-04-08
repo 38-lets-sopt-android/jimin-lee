@@ -36,6 +36,7 @@ import com.example.letssopt.component.LetsSoptTextField
 import com.example.letssopt.component.text.LogoText
 import com.example.letssopt.component.text.ScreenText
 import com.example.letssopt.ui.theme.LETSSOPTTheme
+import com.example.letssopt.utils.IntentKeys
 import com.example.letssopt.utils.noRippleClickable
 
 class LoginActivity : ComponentActivity() {
@@ -54,8 +55,8 @@ class LoginActivity : ComponentActivity() {
                 contract = ActivityResultContracts.StartActivityForResult()
             ) { result ->
                 if (result.resultCode == RESULT_OK) {
-                    emailResult = result.data?.getStringExtra("emailKey") ?: ""
-                    passwordResult = result.data?.getStringExtra("passwordKey") ?: ""
+                    emailResult = result.data?.getStringExtra(IntentKeys.KEY_EMAIL) ?: ""
+                    passwordResult = result.data?.getStringExtra(IntentKeys.KEY_PW) ?: ""
                 }
             }
 

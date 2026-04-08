@@ -32,6 +32,7 @@ import com.example.letssopt.component.LetsSoptTextField
 import com.example.letssopt.component.text.LogoText
 import com.example.letssopt.component.text.ScreenText
 import com.example.letssopt.ui.theme.LETSSOPTTheme
+import com.example.letssopt.utils.IntentKeys
 
 private val emailRegex = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
 private val passwordRegex = Regex("^.{8,12}$")
@@ -93,8 +94,8 @@ class SignUpActivity : ComponentActivity() {
 
             else -> {
                 val intent = Intent(this, LoginActivity::class.java).apply {
-                    putExtra("emailKey", email)
-                    putExtra("passwordKey", password)
+                    putExtra(IntentKeys.KEY_EMAIL, email)
+                    putExtra(IntentKeys.KEY_PW, password)
                 }
 
                 Toast.makeText(this, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()
