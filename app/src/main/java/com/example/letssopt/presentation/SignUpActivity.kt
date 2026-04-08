@@ -14,6 +14,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -23,6 +24,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
@@ -118,7 +121,7 @@ private fun SignUpScreen(
     onSignUpBtnClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
+    val focusManager = LocalFocusManager.current
     val passwordVisualTransformation = remember { PasswordVisualTransformation() }
 
     val isBtnEnabled = email.isNotEmpty() && password.isNotEmpty() && passwordConfirm.isNotEmpty()
@@ -152,6 +155,11 @@ private fun SignUpScreen(
             placeholder = "이메일 주소를 입력하세요",
             modifier = Modifier,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+            keyboardActions = KeyboardActions(
+                onNext = {
+                    focusManager.moveFocus(focusDirection = FocusDirection.Down)
+                }
+            ),
         )
 
         Spacer(modifier = Modifier.height(18.dp))
@@ -164,6 +172,11 @@ private fun SignUpScreen(
             modifier = Modifier,
             visualTransformation = passwordVisualTransformation,
             keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+            keyboardActions = KeyboardActions(
+                onNext = {
+                    focusManager.moveFocus(focusDirection = FocusDirection.Down)
+                }
+            ),
         )
 
         Spacer(modifier = Modifier.height(18.dp))
@@ -175,6 +188,11 @@ private fun SignUpScreen(
             placeholder = "비밀번호를 다시 입력하세요",
             modifier = Modifier,
             visualTransformation = passwordVisualTransformation,
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    focusManager.clearFocus()
+                }
+            ),
         )
 
         Spacer(modifier = Modifier.weight(1f))

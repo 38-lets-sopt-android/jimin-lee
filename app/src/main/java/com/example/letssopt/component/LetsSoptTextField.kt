@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -39,6 +40,7 @@ fun LetsSoptTextField(
     inputTextColor: Color = LETSSOPTTheme.colors.txtPrimary,
     textStyle: TextStyle = LETSSOPTTheme.typography.caption.regular14,
     keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
+    keyboardActions: KeyboardActions = KeyboardActions(),
     visualTransformation: VisualTransformation = VisualTransformation.None,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() },
 ) {
@@ -69,6 +71,7 @@ fun LetsSoptTextField(
                     color = inputTextColor,
                 ),
                 keyboardOptions = keyboardOptions,
+                keyboardActions = keyboardActions,
                 singleLine = true,
                 visualTransformation = visualTransformation,
                 interactionSource = interactionSource,

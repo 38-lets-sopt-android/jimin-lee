@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -26,6 +27,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -124,7 +127,7 @@ private fun LoginScreen(
     onLoginBtnClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-
+    val focusManager = LocalFocusManager.current
     val passwordVisualTransformation = remember { PasswordVisualTransformation() }
 
     Column(
@@ -159,6 +162,11 @@ private fun LoginScreen(
                 keyboardType = KeyboardType.Email,
                 imeAction = ImeAction.Next,
             ),
+            keyboardActions = KeyboardActions(
+                onNext = {
+                    focusManager.moveFocus(focusDirection = FocusDirection.Down)
+                }
+            ),
         )
 
         Spacer(modifier = Modifier.height(18.dp))
@@ -169,7 +177,12 @@ private fun LoginScreen(
             onValueChange = onPasswordChange,
             placeholder = "비밀번호를 입력하세요",
             modifier = Modifier,
-            visualTransformation = passwordVisualTransformation
+            visualTransformation = passwordVisualTransformation,
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    focusManager.clearFocus()
+                }
+            ),
         )
 
         Spacer(modifier = Modifier.weight(1f))
