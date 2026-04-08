@@ -10,14 +10,20 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.imePadding
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -64,7 +70,10 @@ class LoginActivity : ComponentActivity() {
             }
 
             LETSSOPTTheme {
-                Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    contentWindowInsets = WindowInsets(),
+                ) { innerPadding ->
                     LoginScreen(
                         email = email,
                         password = password,
@@ -127,6 +136,7 @@ private fun LoginScreen(
     onLoginBtnClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val scrollState = rememberScrollState()
     val focusManager = LocalFocusManager.current
     val passwordVisualTransformation = remember { PasswordVisualTransformation() }
 
@@ -136,75 +146,85 @@ private fun LoginScreen(
             .background(
                 color = LETSSOPTTheme.colors.background,
             )
+            .imePadding()
             .padding(horizontal = 20.dp)
             .padding(top = 60.dp, bottom = 26.dp),
-        verticalArrangement = Arrangement.Top,
-        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        LogoText()
-
-        Spacer(modifier = Modifier.height(26.dp))
-
-        ScreenText(
-            text = "이메일로 로그인",
-            modifier = Modifier.fillMaxWidth(),
-        )
-
-        Spacer(modifier = Modifier.height(36.dp))
-
-        LetsSoptTextField(
-            title = "이메일",
-            value = email,
-            onValueChange = onEmailChange,
-            placeholder = "이메일 주소를 입력하세요",
-            modifier = Modifier,
-            keyboardOptions = KeyboardOptions(
-                keyboardType = KeyboardType.Email,
-                imeAction = ImeAction.Next,
-            ),
-            keyboardActions = KeyboardActions(
-                onNext = {
-                    focusManager.moveFocus(focusDirection = FocusDirection.Down)
-                }
-            ),
-        )
-
-        Spacer(modifier = Modifier.height(18.dp))
-
-        LetsSoptTextField(
-            title = "비밀번호",
-            value = password,
-            onValueChange = onPasswordChange,
-            placeholder = "비밀번호를 입력하세요",
-            modifier = Modifier,
-            visualTransformation = passwordVisualTransformation,
-            keyboardActions = KeyboardActions(
-                onDone = {
-                    focusManager.clearFocus()
-                }
-            ),
-        )
-
-        Spacer(modifier = Modifier.weight(1f))
-
-        Text(
-            text = "아직 계정이 없으신가요? 회원가입",
+        Column(
             modifier = Modifier
-                .noRippleClickable(
-                    onClick = onSignUpTxtClick,
+                .weight(1f)
+                .verticalScroll(scrollState),
+            verticalArrangement = Arrangement.Top,
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            LogoText()
+
+            Spacer(modifier = Modifier.height(26.dp))
+
+            ScreenText(
+                text = "이메일로 로그인",
+                modifier = Modifier.fillMaxWidth(),
+            )
+
+            Spacer(modifier = Modifier.height(36.dp))
+
+            LetsSoptTextField(
+                title = "이메일",
+                value = email,
+                onValueChange = onEmailChange,
+                placeholder = "이메일 주소를 입력하세요",
+                modifier = Modifier,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next,
                 ),
-            color = LETSSOPTTheme.colors.txtSecondary,
-            style = LETSSOPTTheme.typography.caption.regular14,
-        )
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusManager.moveFocus(focusDirection = FocusDirection.Down)
+                    }
+                ),
+            )
 
-        Spacer(modifier = Modifier.height(20.dp))
+            Spacer(modifier = Modifier.height(18.dp))
 
-        LetsSoptButton(
-            btnText = "로그인",
-            enabled = true,
-            onClick = onLoginBtnClick,
-            modifier = Modifier,
-        )
+            LetsSoptTextField(
+                title = "비밀번호",
+                value = password,
+                onValueChange = onPasswordChange,
+                placeholder = "비밀번호를 입력하세요",
+                modifier = Modifier,
+                visualTransformation = passwordVisualTransformation,
+                keyboardActions = KeyboardActions(
+                    onDone = {
+                        focusManager.clearFocus()
+                    }
+                ),
+            )
+        }
+
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            Text(
+                text = "아직 계정이 없으신가요? 회원가입",
+                modifier = Modifier
+                    .noRippleClickable(
+                        onClick = onSignUpTxtClick,
+                    ),
+                color = LETSSOPTTheme.colors.txtSecondary,
+                style = LETSSOPTTheme.typography.caption.regular14,
+            )
+
+            Spacer(modifier = Modifier.height(20.dp))
+
+            LetsSoptButton(
+                btnText = "로그인",
+                enabled = true,
+                onClick = onLoginBtnClick,
+                modifier = Modifier
+                    .navigationBarsPadding(),
+            )
+        }
     }
 }
 
