@@ -42,9 +42,7 @@ import com.example.letssopt.core.designsystem.component.text.LogoText
 import com.example.letssopt.core.designsystem.component.text.ScreenText
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.utils.IntentKeys
-
-private const val emailRegex = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
-private const val passwordRegex = Regex("^.{8,12}$")
+import com.example.letssopt.core.utils.SignUpValidator.checkValidation
 
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -73,6 +71,8 @@ class SignUpActivity : ComponentActivity() {
                                 email = email,
                                 password = password,
                                 passwordConfirm = passwordConfirm,
+                                onFailure = ::onSignUpFailure,
+                                onSuccess = ::onSignUpSuccess,
                             )
                         },
                         modifier = Modifier.padding(innerPadding)
@@ -82,40 +82,25 @@ class SignUpActivity : ComponentActivity() {
         }
     }
 
-    private fun checkValidation(
+    private fun onSignUpFailure(
+        message: String,
+    ) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    private fun onSignUpSuccess(
         email: String,
         password: String,
-        passwordConfirm: String,
     ) {
-        val isEmailValid = email.matches(emailRegex)
-        val isPasswordValid = password.matches(passwordRegex)
-        val isPasswordMatch = password == passwordConfirm
-
-        when {
-            !isEmailValid -> {
-                Toast.makeText(this, "이메일 형식이 잘못되었습니다", Toast.LENGTH_SHORT).show()
-            }
-
-            !isPasswordValid -> {
-                Toast.makeText(this, "비밀번호는 8~12자로 입력해주세요", Toast.LENGTH_SHORT).show()
-            }
-
-            !isPasswordMatch -> {
-                Toast.makeText(this, "비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
-            }
-
-            else -> {
-                val intent = Intent(this, LoginActivity::class.java).apply {
-                    putExtra(IntentKeys.KEY_EMAIL, email)
-                    putExtra(IntentKeys.KEY_PW, password)
-                }
-
-                Toast.makeText(this, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()
-
-                setResult(RESULT_OK, intent)
-                finish()
-            }
+        val intent = Intent(this, LoginActivity::class.java).apply {
+            putExtra(IntentKeys.KEY_EMAIL, email)
+            putExtra(IntentKeys.KEY_PW, password)
         }
+
+        Toast.makeText(this, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()
+
+        setResult(RESULT_OK, intent)
+        finish()
     }
 }
 
