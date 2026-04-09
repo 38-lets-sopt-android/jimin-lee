@@ -42,8 +42,8 @@ import com.example.letssopt.core.designsystem.component.text.ScreenText
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.utils.IntentKeys
 
-private val emailRegex = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
-private val passwordRegex = Regex("^.{8,12}$")
+private const val emailRegex = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
+private const val passwordRegex = Regex("^.{8,12}$")
 
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
