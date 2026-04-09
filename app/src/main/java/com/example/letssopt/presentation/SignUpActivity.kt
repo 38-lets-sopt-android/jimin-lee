@@ -54,12 +54,17 @@ class SignUpActivity : ComponentActivity() {
             var password by remember { mutableStateOf("") }
             var passwordConfirm by remember { mutableStateOf("") }
 
+            val isBtnEnabled by remember {
+                derivedStateOf { email.isNotEmpty() && password.isNotEmpty() && passwordConfirm.isNotEmpty() }
+            }
+
             LETSSOPTTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     contentWindowInsets = WindowInsets(),
                 ) { innerPadding ->
                     SignUpScreen(
+                        isBtnEnabled = isBtnEnabled,
                         email = email,
                         password = password,
                         passwordConfirm = passwordConfirm,
@@ -106,6 +111,7 @@ class SignUpActivity : ComponentActivity() {
 
 @Composable
 private fun SignUpScreen(
+    isBtnEnabled: Boolean,
     email: String,
     password: String,
     passwordConfirm: String,
@@ -118,10 +124,6 @@ private fun SignUpScreen(
     val scrollState = rememberScrollState()
     val focusManager = LocalFocusManager.current
     val passwordVisualTransformation = remember { PasswordVisualTransformation() }
-
-    val isBtnEnabled by remember {
-        derivedStateOf { email.isNotEmpty() && password.isNotEmpty() && passwordConfirm.isNotEmpty() }
-    }
 
     Column(
         modifier = modifier
@@ -221,6 +223,7 @@ private fun SignUpScreenPreview() {
 
     LETSSOPTTheme {
         SignUpScreen(
+            isBtnEnabled = true,
             email = email,
             password = password,
             passwordConfirm = passwordConfirm,
