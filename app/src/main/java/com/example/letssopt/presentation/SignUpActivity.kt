@@ -23,6 +23,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -133,7 +134,9 @@ private fun SignUpScreen(
     val focusManager = LocalFocusManager.current
     val passwordVisualTransformation = remember { PasswordVisualTransformation() }
 
-    val isBtnEnabled = email.isNotEmpty() && password.isNotEmpty() && passwordConfirm.isNotEmpty()
+    val isBtnEnabled by remember {
+        derivedStateOf { email.isNotEmpty() && password.isNotEmpty() && passwordConfirm.isNotEmpty() }
+    }
 
     Column(
         modifier = modifier
