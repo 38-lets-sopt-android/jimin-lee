@@ -1,4 +1,4 @@
-package com.example.letssopt.core.utils
+package com.example.letssopt.presentation.signup
 
 object SignUpValidator {
     private val emailRegex = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
