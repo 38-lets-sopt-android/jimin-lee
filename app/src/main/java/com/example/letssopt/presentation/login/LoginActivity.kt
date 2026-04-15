@@ -3,10 +3,8 @@ package com.example.letssopt.presentation.login
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
-import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -32,6 +30,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -47,55 +46,34 @@ import com.example.letssopt.core.designsystem.component.text.ScreenText
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.extension.noRippleClickable
 import com.example.letssopt.core.extension.toast
-import com.example.letssopt.core.utils.IntentKeys
 import com.example.letssopt.core.utils.PreferencesUtil
-import com.example.letssopt.data.model.UserInfo
 import com.example.letssopt.presentation.login.LoginContract.LoginResult
 import com.example.letssopt.presentation.main.MainActivity
 import com.example.letssopt.presentation.signup.SignUpActivity
 
 class LoginActivity : ComponentActivity() {
-    private lateinit var preferences: PreferencesUtil
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
-        preferences = PreferencesUtil(this)
-
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-
-            val launcher = rememberLauncherForActivityResult(
-                contract = ActivityResultContracts.StartActivityForResult()
-            ) { result ->
-                if (result.resultCode == RESULT_OK) {
-                    preferences.setUserInfo(
-                        email = result.data?.getStringExtra(IntentKeys.KEY_EMAIL) ?: "",
-                        password = result.data?.getStringExtra(IntentKeys.KEY_PW) ?: "",
-                    )
-                }
-            }
-
-            val savedUserInfo = remember { preferences.getUserInfo() }
-
             LETSSOPTTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     contentWindowInsets = WindowInsets(),
                 ) { innerPadding ->
                     LoginRoute(
-                        savedUserInfo = savedUserInfo,
                         onSignUpTxtClick = {
                             val intent = Intent(this, SignUpActivity::class.java)
-                            launcher.launch(intent)
+                            startActivity(intent)
                         },
                         onLoginSuccess = {
                             val intent = Intent(this, MainActivity::class.java).apply {
                                 flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                             }
-                            this.startActivity(intent)
+                            startActivity(intent)
                         },
-                        onShowToast = { this.toast(it) },
+                        onShowToast = { toast(it) },
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -106,14 +84,17 @@ class LoginActivity : ComponentActivity() {
 
 @Composable
 private fun LoginRoute(
-    savedUserInfo: UserInfo,
     onSignUpTxtClick: () -> Unit,
     onLoginSuccess: () -> Unit,
     onShowToast: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = viewModel()
 ) {
+    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val prefs = PreferencesUtil(context)
+    val savedUserInfo = prefs.getUserInfo()
 
     LoginScreen(
         email = uiState.email,
