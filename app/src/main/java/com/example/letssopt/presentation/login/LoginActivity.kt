@@ -32,7 +32,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
@@ -50,6 +49,7 @@ import com.example.letssopt.core.extension.noRippleClickable
 import com.example.letssopt.core.extension.toast
 import com.example.letssopt.core.utils.IntentKeys
 import com.example.letssopt.core.utils.PreferencesUtil
+import com.example.letssopt.data.model.UserInfo
 import com.example.letssopt.presentation.login.LoginContract.LoginResult
 import com.example.letssopt.presentation.main.MainActivity
 import com.example.letssopt.presentation.signup.SignUpActivity
@@ -76,12 +76,15 @@ class LoginActivity : ComponentActivity() {
                 }
             }
 
+            val savedUserInfo = remember { preferences.getUserInfo() }
+
             LETSSOPTTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     contentWindowInsets = WindowInsets(),
                 ) { innerPadding ->
                     LoginRoute(
+                        savedUserInfo = savedUserInfo,
                         onSignUpTxtClick = {
                             val intent = Intent(this, SignUpActivity::class.java)
                             launcher.launch(intent)
@@ -103,6 +106,7 @@ class LoginActivity : ComponentActivity() {
 
 @Composable
 private fun LoginRoute(
+    savedUserInfo: UserInfo,
     onSignUpTxtClick: () -> Unit,
     onLoginSuccess: () -> Unit,
     onShowToast: (String) -> Unit,
@@ -118,7 +122,7 @@ private fun LoginRoute(
         onPasswordChange = viewModel::updatePasswordText,
         onSignUpTxtClick = onSignUpTxtClick,
         onLoginBtnClick = {
-            when(viewModel.validateLogin()) {
+            when(viewModel.validateLogin(savedUserInfo = savedUserInfo)) {
                 LoginResult.EmptyFailure -> {
                     onShowToast("아이디와 비밀번호를 입력해주세요")
                 }
