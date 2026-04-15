@@ -2,7 +2,6 @@ package com.example.letssopt.presentation.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.compose.setContent
@@ -33,40 +32,47 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.core.designsystem.component.LetsSoptButton
 import com.example.letssopt.core.designsystem.component.LetsSoptTextField
 import com.example.letssopt.core.designsystem.component.text.LogoText
 import com.example.letssopt.core.designsystem.component.text.ScreenText
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.extension.noRippleClickable
+import com.example.letssopt.core.extension.toast
 import com.example.letssopt.core.utils.IntentKeys
+import com.example.letssopt.core.utils.PreferencesUtil
+import com.example.letssopt.presentation.login.LoginContract.LoginResult
 import com.example.letssopt.presentation.main.MainActivity
 import com.example.letssopt.presentation.signup.SignUpActivity
 
 class LoginActivity : ComponentActivity() {
+    private lateinit var preferences: PreferencesUtil
+
     override fun onCreate(savedInstanceState: Bundle?) {
+
+        preferences = PreferencesUtil(this)
+
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-
-            var email by remember { mutableStateOf("") }
-            var password by remember { mutableStateOf("") }
-
-            var emailResult by remember { mutableStateOf("") }
-            var passwordResult by remember { mutableStateOf("") }
 
             val launcher = rememberLauncherForActivityResult(
                 contract = ActivityResultContracts.StartActivityForResult()
             ) { result ->
                 if (result.resultCode == RESULT_OK) {
-                    emailResult = result.data?.getStringExtra(IntentKeys.KEY_EMAIL) ?: ""
-                    passwordResult = result.data?.getStringExtra(IntentKeys.KEY_PW) ?: ""
+                    preferences.setUserInfo(
+                        email = result.data?.getStringExtra(IntentKeys.KEY_EMAIL) ?: "",
+                        password = result.data?.getStringExtra(IntentKeys.KEY_PW) ?: "",
+                    )
                 }
             }
 
@@ -75,22 +81,16 @@ class LoginActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     contentWindowInsets = WindowInsets(),
                 ) { innerPadding ->
-                    LoginScreen(
-                        email = email,
-                        password = password,
-                        onEmailChange = { email = it },
-                        onPasswordChange = { password = it },
+                    LoginRoute(
                         onSignUpTxtClick = {
                             val intent = Intent(this, SignUpActivity::class.java)
                             launcher.launch(intent)
                         },
-                        onLoginBtnClick = {
-                            handleLoginResult(
-                                email = email,
-                                password = password,
-                                emailResult = emailResult,
-                                passwordResult = passwordResult,
-                            )
+                        onLoginSuccess = {
+                            val intent = Intent(this, MainActivity::class.java).apply {
+                                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                            }
+                            this.startActivity(intent)
                         },
                         modifier = Modifier.padding(innerPadding)
                     )
@@ -98,33 +98,40 @@ class LoginActivity : ComponentActivity() {
             }
         }
     }
+}
 
-    private fun handleLoginResult(
-        email: String,
-        password: String,
-        emailResult: String,
-        passwordResult: String,
-    ) {
+@Composable
+private fun LoginRoute(
+    onSignUpTxtClick: () -> Unit,
+    onLoginSuccess: () -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: LoginViewModel = viewModel()
+) {
+    val context = LocalContext.current
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-        when {
-            email.isBlank() || password.isBlank() -> {
-                Toast.makeText(this, "아이디와 비밀번호를 입력해주세요", Toast.LENGTH_SHORT).show()
-            }
-
-            email != emailResult || password != passwordResult -> {
-                Toast.makeText(this, "아이디 또는 비밀번호가 일치하지 않습니다", Toast.LENGTH_SHORT).show()
-            }
-
-            else -> {
-                Toast.makeText(this, "로그인에 성공했습니다", Toast.LENGTH_SHORT).show()
-
-                val intent = Intent(this, MainActivity::class.java).apply {
-                    flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+    LoginScreen(
+        email = uiState.email,
+        password = uiState.password,
+        onEmailChange = viewModel::updateEmailText,
+        onPasswordChange = viewModel::updatePasswordText,
+        onSignUpTxtClick = onSignUpTxtClick,
+        onLoginBtnClick = {
+            when(viewModel.validateLogin()) {
+                LoginResult.EmptyFailure -> {
+                    context.toast("아이디와 비밀번호를 입력해주세요")
                 }
-                startActivity(intent)
+                LoginResult.InvalidFailure -> {
+                    context.toast("아이디 또는 비밀번호가 일치하지 않습니다")
+                }
+                LoginResult.Success -> {
+                    context.toast("로그인에 성공했습니다")
+                    onLoginSuccess()
+                }
             }
-        }
-    }
+        },
+        modifier = modifier,
+    )
 }
 
 @Composable
