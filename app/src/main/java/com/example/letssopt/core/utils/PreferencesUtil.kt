@@ -17,17 +17,22 @@ class PreferencesUtil(
         password: String,
     ) {
         pref.edit().apply {
-            putString(IntentKeys.KEY_EMAIL, email)
-            putString(IntentKeys.KEY_PW, password)
+            putString(PrefKeys.KEY_EMAIL, email)
+            putString(PrefKeys.KEY_PW, password)
             apply()
         }
     }
 
     fun getUserInfo(): UserInfo {
         return UserInfo(
-            email = pref.getString(IntentKeys.KEY_EMAIL, "") ?: "",
-            password = pref.getString(IntentKeys.KEY_PW, "") ?: "",
+            email = pref.getString(PrefKeys.KEY_EMAIL, "") ?: "",
+            password = pref.getString(PrefKeys.KEY_PW, "") ?: "",
         )
+    }
+
+    object PrefKeys {
+        const val KEY_EMAIL = "emailKey"
+        const val KEY_PW = "passwordKey"
     }
 }
 
