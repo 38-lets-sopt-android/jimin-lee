@@ -92,6 +92,7 @@ class LoginActivity : ComponentActivity() {
                             }
                             this.startActivity(intent)
                         },
+                        onShowToast = { this.toast(it) },
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
@@ -104,10 +105,10 @@ class LoginActivity : ComponentActivity() {
 private fun LoginRoute(
     onSignUpTxtClick: () -> Unit,
     onLoginSuccess: () -> Unit,
+    onShowToast: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = viewModel()
 ) {
-    val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LoginScreen(
@@ -119,13 +120,13 @@ private fun LoginRoute(
         onLoginBtnClick = {
             when(viewModel.validateLogin()) {
                 LoginResult.EmptyFailure -> {
-                    context.toast("아이디와 비밀번호를 입력해주세요")
+                    onShowToast("아이디와 비밀번호를 입력해주세요")
                 }
                 LoginResult.InvalidFailure -> {
-                    context.toast("아이디 또는 비밀번호가 일치하지 않습니다")
+                    onShowToast("아이디 또는 비밀번호가 일치하지 않습니다")
                 }
                 LoginResult.Success -> {
-                    context.toast("로그인에 성공했습니다")
+                    onShowToast("로그인에 성공했습니다")
                     onLoginSuccess()
                 }
             }
