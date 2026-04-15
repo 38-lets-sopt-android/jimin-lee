@@ -1,8 +1,6 @@
 package com.example.letssopt.presentation.signup
 
-import android.content.Intent
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -23,7 +21,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,19 +28,22 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusDirection
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.core.designsystem.component.LetsSoptButton
 import com.example.letssopt.core.designsystem.component.LetsSoptTextField
 import com.example.letssopt.core.designsystem.component.text.LogoText
 import com.example.letssopt.core.designsystem.component.text.ScreenText
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.core.utils.IntentKeys
+import com.example.letssopt.core.extension.toast
+import com.example.letssopt.core.utils.PreferencesUtil
 import com.example.letssopt.presentation.signup.SignUpValidator.checkValidation
-import com.example.letssopt.presentation.login.LoginActivity
 
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,63 +51,63 @@ class SignUpActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
 
-            var email by remember { mutableStateOf("") }
-            var password by remember { mutableStateOf("") }
-            var passwordConfirm by remember { mutableStateOf("") }
-
-            val isBtnEnabled by remember {
-                derivedStateOf { email.isNotEmpty() && password.isNotEmpty() && passwordConfirm.isNotEmpty() }
-            }
-
             LETSSOPTTheme {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     contentWindowInsets = WindowInsets(),
                 ) { innerPadding ->
-                    SignUpScreen(
-                        isBtnEnabled = isBtnEnabled,
-                        email = email,
-                        password = password,
-                        passwordConfirm = passwordConfirm,
-                        onEmailChange = { email = it },
-                        onPasswordChange = { password = it },
-                        onPasswordConfirmChange = { passwordConfirm = it },
-                        onSignUpBtnClick = {
-                            checkValidation(
-                                email = email,
-                                password = password,
-                                passwordConfirm = passwordConfirm,
-                                onFailure = ::onSignUpFailure,
-                                onSuccess = ::onSignUpSuccess,
-                            )
+                    SignUpRoute(
+                        onSignUpSuccess = {
+                            setResult(RESULT_OK)
+                            finish()
                         },
+                        onShowToast = { toast(it) },
                         modifier = Modifier.padding(innerPadding)
                     )
                 }
             }
         }
     }
+}
 
-    private fun onSignUpFailure(
-        message: String,
-    ) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
+@Composable
+private fun SignUpRoute(
+    onSignUpSuccess: () -> Unit,
+    onShowToast: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: SignUpViewModel = viewModel(),
+) {
+    val context = LocalContext.current
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    private fun onSignUpSuccess(
-        email: String,
-        password: String,
-    ) {
-        val intent = Intent(this, LoginActivity::class.java).apply {
-            putExtra(IntentKeys.KEY_EMAIL, email)
-            putExtra(IntentKeys.KEY_PW, password)
-        }
+    val prefs = PreferencesUtil(context)
 
-        Toast.makeText(this, "회원가입이 완료되었습니다", Toast.LENGTH_SHORT).show()
-
-        setResult(RESULT_OK, intent)
-        finish()
-    }
+    SignUpScreen(
+        isBtnEnabled = viewModel.isBtnEnabled,
+        email = uiState.email,
+        password = uiState.password,
+        passwordConfirm = uiState.passwordConfirm,
+        onEmailChange = viewModel::updateEmailText,
+        onPasswordChange = viewModel::updatePasswordText,
+        onPasswordConfirmChange = viewModel::updatePasswordConfirmText,
+        onSignUpBtnClick = {
+            checkValidation(
+                email = uiState.email,
+                password = uiState.password,
+                passwordConfirm = uiState.passwordConfirm,
+                onFailure = onShowToast,
+                onSuccess = {
+                    prefs.setUserInfo(
+                        email = uiState.email,
+                        password = uiState.password,
+                    )
+                    onShowToast("회원가입이 완료되었습니다")
+                    onSignUpSuccess()
+                },
+            )
+        },
+        modifier = modifier,
+    )
 }
 
 @Composable

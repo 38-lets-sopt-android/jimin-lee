@@ -9,7 +9,7 @@ object SignUpValidator {
         password: String,
         passwordConfirm: String,
         onFailure: (String) -> Unit,
-        onSuccess: (String, String) -> Unit,
+        onSuccess: () -> Unit,
     ) {
         val isEmailValid = email.matches(emailRegex)
         val isPasswordValid = password.matches(passwordRegex)
@@ -19,7 +19,7 @@ object SignUpValidator {
             !isEmailValid -> onFailure("이메일 형식이 잘못되었습니다")
             !isPasswordValid -> onFailure("비밀번호는 8~12자로 입력해주세요")
             !isPasswordMatch -> onFailure("비밀번호가 일치하지 않습니다")
-            else -> onSuccess(email, password)
+            else -> onSuccess()
         }
     }
 }
