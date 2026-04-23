@@ -2,7 +2,6 @@ package com.example.letssopt.presentation.splash
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
@@ -50,7 +49,6 @@ fun SplashRoute(
 
     LaunchedEffect(Unit) {
         delay(2000L)
-        //Log.d("splash", "${userInfo.email} , ${userInfo.password}")
         if(userInfo.email.isNotEmpty() && userInfo.password.isNotEmpty()) {
             val intent = Intent(context, MainActivity::class.java)
             context.startActivity(intent)
