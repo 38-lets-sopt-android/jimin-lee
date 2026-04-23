@@ -3,7 +3,7 @@ package com.example.letssopt.presentation.main.component
 import androidx.annotation.DrawableRes
 import com.example.letssopt.R
 
-enum class BottomBarItem(
+enum class MainTab(
     @param:DrawableRes val icon: Int,
     val label: String,
 ) {

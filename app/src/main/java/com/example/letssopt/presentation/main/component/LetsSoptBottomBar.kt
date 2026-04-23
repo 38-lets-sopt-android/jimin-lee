@@ -1,4 +1,4 @@
-package com.example.letssopt.core.designsystem.component
+package com.example.letssopt.presentation.main.component
 
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.layout.Arrangement
@@ -20,13 +20,12 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.presentation.main.component.BottomBarItem
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun LetsSoptBottomBar(
-    items: ImmutableList<BottomBarItem>,
+    items: ImmutableList<MainTab>,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -81,7 +80,7 @@ private fun BottomBarItem(
 private fun LetsSoptBottomBarPreview() {
     LETSSOPTTheme {
         LetsSoptBottomBar(
-            items = BottomBarItem.entries.toImmutableList(),
+            items = MainTab.entries.toImmutableList(),
         )
     }
 }
