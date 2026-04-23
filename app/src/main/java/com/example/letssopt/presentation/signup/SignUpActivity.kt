@@ -43,7 +43,6 @@ import com.example.letssopt.core.designsystem.component.text.ScreenText
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.extension.toast
 import com.example.letssopt.core.utils.PreferencesUtil
-import com.example.letssopt.presentation.signup.SignUpValidator.checkValidation
 
 class SignUpActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -91,10 +90,7 @@ private fun SignUpRoute(
         onPasswordChange = viewModel::updatePasswordText,
         onPasswordConfirmChange = viewModel::updatePasswordConfirmText,
         onSignUpBtnClick = {
-            checkValidation(
-                email = uiState.email,
-                password = uiState.password,
-                passwordConfirm = uiState.passwordConfirm,
+            viewModel.checkValidation(
                 onFailure = onShowToast,
                 onSuccess = {
                     prefs.setUserInfo(
