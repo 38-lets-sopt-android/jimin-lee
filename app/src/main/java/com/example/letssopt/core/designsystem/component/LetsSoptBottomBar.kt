@@ -19,14 +19,16 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.letssopt.R
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
+import com.example.letssopt.presentation.main.component.BottomBarItem
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.toImmutableList
 
 @Composable
 fun LetsSoptBottomBar(
+    items: ImmutableList<BottomBarItem>,
     modifier: Modifier = Modifier,
 ) {
-
     Row(
         modifier = modifier
             .fillMaxWidth()
@@ -34,29 +36,12 @@ fun LetsSoptBottomBar(
         horizontalArrangement = Arrangement.spacedBy(21.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-
-        BottomBarItem(
-            icon = R.drawable.ic_main,
-            label = "메인",
-            isEnabled = true
-        )
-        BottomBarItem(
-            icon = R.drawable.ic_purchase,
-            label = "개별 구매",
-        )
-        BottomBarItem(
-            icon = R.drawable.ic_webtoon,
-            label = "웹툰",
-        )
-        BottomBarItem(
-            icon = R.drawable.ic_search,
-            label = "찾기",
-        )
-        BottomBarItem(
-            icon = R.drawable.ic_storage,
-            label = "보관함",
-        )
-
+        items.forEach { item ->
+            BottomBarItem(
+                icon = item.icon,
+                label = item.label,
+            )
+        }
     }
 }
 
@@ -95,6 +80,8 @@ private fun BottomBarItem(
 @Composable
 private fun LetsSoptBottomBarPreview() {
     LETSSOPTTheme {
-        LetsSoptBottomBar()
+        LetsSoptBottomBar(
+            items = BottomBarItem.entries.toImmutableList(),
+        )
     }
 }
