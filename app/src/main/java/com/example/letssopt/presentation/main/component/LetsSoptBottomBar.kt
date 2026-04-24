@@ -93,11 +93,11 @@ private fun BottomBarItem(
 @Composable
 private fun LetsSoptBottomBarPreview() {
     LETSSOPTTheme {
-        var selectedItem by remember { mutableStateOf(MainTab.MAIN) }
+        var selectedItem by remember { mutableStateOf(MainTab.HOME) }
 
         LetsSoptBottomBar(
             items = MainTab.entries.toImmutableList(),
-            selectedItem = MainTab.MAIN,
+            selectedItem = MainTab.HOME,
             onItemSelected = { selectedItem = it },
         )
     }
