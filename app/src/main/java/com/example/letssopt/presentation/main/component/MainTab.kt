@@ -7,8 +7,8 @@ enum class MainTab(
     @param:DrawableRes val icon: Int,
     val label: String,
 ) {
-    MAIN(
-        icon = R.drawable.ic_main,
+    HOME(
+        icon = R.drawable.ic_home,
         label = "메인",
     ),
     PURCHASE(

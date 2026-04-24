@@ -7,7 +7,7 @@ import kotlinx.collections.immutable.toImmutableList
 interface MainContract {
 
     data class State(
-        val selectedItem: MainTab = MainTab.MAIN,
+        val selectedItem: MainTab = MainTab.HOME,
         val items: ImmutableList<MainTab> = MainTab.entries.toImmutableList()
     )
 }
