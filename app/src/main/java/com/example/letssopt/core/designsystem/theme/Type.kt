@@ -43,6 +43,11 @@ sealed interface TypographyTokens {
     ) : TypographyTokens
 
     @Immutable
+    data class Body2(
+        val regular12: TextStyle,
+    ) : TypographyTokens
+
+    @Immutable
     data class Caption(
         val regular14: TextStyle,
     ) : TypographyTokens
@@ -54,6 +59,7 @@ data class LETSSOPTTypography(
     val h1: TypographyTokens.H1,
     val h2: TypographyTokens.H2,
     val body: TypographyTokens.Body,
+    val body2: TypographyTokens.Body2,
     val caption: TypographyTokens.Caption,
 )
 
@@ -96,6 +102,12 @@ val defaultLETSSOPTTypography = LETSSOPTTypography(
         regular16 = LETSSOPTTextStyle(
             fontFamily = PretendardFont.Regular,
             fontSize = 16.sp,
+        ),
+    ),
+    body2 = TypographyTokens.Body2(
+        regular12 = LETSSOPTTextStyle(
+            fontFamily = PretendardFont.Regular,
+            fontSize = 12.sp,
         ),
     ),
     caption = TypographyTokens.Caption(
