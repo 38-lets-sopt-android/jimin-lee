@@ -23,7 +23,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.R
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.presentation.home.model.HomeItemModel
+import com.example.letssopt.data.model.ContentItemModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -31,7 +31,7 @@ private const val ASPECT_RATIO = 2/3f
 
 @Composable
 fun HomeUpcoming(
-    items: ImmutableList<HomeItemModel>,
+    items: ImmutableList<ContentItemModel>,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -87,9 +87,9 @@ private fun HomeUpcomingPreview() {
     LETSSOPTTheme {
         HomeUpcoming(
             items = persistentListOf(
-                HomeItemModel(1, R.drawable.img_home_1),
-                HomeItemModel(2, R.drawable.img_home_2),
-                HomeItemModel(3, R.drawable.img_home_3),
+                ContentItemModel(1, R.drawable.img_home_1),
+                ContentItemModel(2, R.drawable.img_home_2),
+                ContentItemModel(3, R.drawable.img_home_3),
             )
         )
     }

@@ -2,7 +2,7 @@ package com.example.letssopt.presentation.home
 
 import androidx.lifecycle.ViewModel
 import com.example.letssopt.R
-import com.example.letssopt.presentation.home.model.HomeItemModel
+import com.example.letssopt.data.model.ContentItemModel
 import com.example.letssopt.presentation.home.model.HomePartyItemModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -50,12 +50,12 @@ class HomeViewModel : ViewModel() {
             it.copy(
                 homeItems =
                     persistentListOf(
-                        HomeItemModel(1, R.drawable.img_home_1),
-                        HomeItemModel(2, R.drawable.img_home_2),
-                        HomeItemModel(3, R.drawable.img_home_3),
-                        HomeItemModel(4, R.drawable.img_home_1),
-                        HomeItemModel(5, R.drawable.img_home_2),
-                        HomeItemModel(6, R.drawable.img_home_3),
+                        ContentItemModel(1, R.drawable.img_home_1),
+                        ContentItemModel(2, R.drawable.img_home_2),
+                        ContentItemModel(3, R.drawable.img_home_3),
+                        ContentItemModel(4, R.drawable.img_home_1),
+                        ContentItemModel(5, R.drawable.img_home_2),
+                        ContentItemModel(6, R.drawable.img_home_3),
                     )
             )
         }
