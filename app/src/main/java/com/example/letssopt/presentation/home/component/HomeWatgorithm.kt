@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.R
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.presentation.home.model.WatgoritmItemModel
+import com.example.letssopt.presentation.home.model.HomeItemModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -32,7 +32,7 @@ private const val ASPECT_RATIO = 2/3f
 
 @Composable
 fun HomeWatgorithm(
-    items: ImmutableList<WatgoritmItemModel>,
+    items: ImmutableList<HomeItemModel>,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -94,13 +94,13 @@ fun HomeWatgorithm(
 
 @Composable
 @Preview(showBackground = false)
-private fun SlideCardPreview() {
+private fun HomeWatgorithmPreview() {
     LETSSOPTTheme {
         HomeWatgorithm(
             items = persistentListOf(
-                WatgoritmItemModel(1, R.drawable.img_home_1),
-                WatgoritmItemModel(2, R.drawable.img_home_2),
-                WatgoritmItemModel(3, R.drawable.img_home_3),
+                HomeItemModel(1, R.drawable.img_home_1),
+                HomeItemModel(2, R.drawable.img_home_2),
+                HomeItemModel(3, R.drawable.img_home_3),
             )
         )
     }

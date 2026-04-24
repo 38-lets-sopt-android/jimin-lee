@@ -100,7 +100,7 @@ private fun NewContentCard(
 
 @Composable
 @Preview(showBackground = true)
-private fun SlideCardPreview() {
+private fun HomeNewContentBannerPreview() {
     LETSSOPTTheme {
         val pagerState = rememberPagerState(pageCount = { 3 })
         HomeNewContentBanner(
