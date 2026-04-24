@@ -9,7 +9,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.widthIn
+import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -50,9 +50,11 @@ fun LetsSoptBottomBar(
             BottomBarItem(
                 icon = item.icon,
                 label = item.label,
-                modifier = Modifier.noRippleClickable(
-                    onClick = { onItemSelected(item) }
-                ),
+                modifier = Modifier
+                    .weight(1f)
+                    .noRippleClickable(
+                        onClick = { onItemSelected(item) }
+                    ),
                 isSelected = selectedItem == item
             )
         }
@@ -69,7 +71,9 @@ private fun BottomBarItem(
     val color = if (isSelected) LETSSOPTTheme.colors.txtPrimary else LETSSOPTTheme.colors.disabled
 
     Column(
-        modifier = modifier.widthIn(48.dp),
+        modifier = modifier
+            .width(48.dp)
+            .height(50.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

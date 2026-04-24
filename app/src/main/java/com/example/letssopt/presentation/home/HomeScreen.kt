@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -62,9 +61,10 @@ private fun HomeScreen(
             .background(
                 color = LETSSOPTTheme.colors.background,
             )
-            .padding(top = 24.dp, bottom = 16.dp)
             .verticalScroll(scrollState)
     ) {
+
+        Spacer(modifier = Modifier.height(24.dp))
 
         HomeNewContentBanner(
             newContentItems = newContentItems,
