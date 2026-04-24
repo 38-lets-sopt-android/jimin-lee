@@ -9,7 +9,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 
 @Composable
-fun WebtoonScreen (
+fun WebtoonRoute(
+    modifier: Modifier = Modifier,
+) {
+    WebtoonScreen(modifier = modifier)
+}
+
+@Composable
+private fun WebtoonScreen (
     modifier: Modifier = Modifier,
 ){
     Box(

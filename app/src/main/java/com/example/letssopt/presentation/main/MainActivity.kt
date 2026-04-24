@@ -20,10 +20,10 @@ import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.presentation.home.HomeRoute
 import com.example.letssopt.presentation.main.component.LetsSoptBottomBar
 import com.example.letssopt.presentation.main.component.MainTab
-import com.example.letssopt.presentation.purchase.PurchaseScreen
-import com.example.letssopt.presentation.search.SearchScreen
+import com.example.letssopt.presentation.purchase.PurchaseRoute
+import com.example.letssopt.presentation.search.SearchRoute
 import com.example.letssopt.presentation.storage.StorageRoute
-import com.example.letssopt.presentation.webtoon.WebtoonScreen
+import com.example.letssopt.presentation.webtoon.WebtoonRoute
 import kotlinx.collections.immutable.ImmutableList
 
 class MainActivity : ComponentActivity() {
@@ -83,9 +83,9 @@ private fun MainScreen(
 
         when (selectedItem) {
             MainTab.HOME -> HomeRoute(modifier = Modifier.padding(innerPadding))
-            MainTab.PURCHASE -> PurchaseScreen(modifier = Modifier.padding(innerPadding))
-            MainTab.SEARCH -> SearchScreen(modifier = Modifier.padding(innerPadding))
-            MainTab.WEBTOON -> WebtoonScreen(modifier = Modifier.padding(innerPadding))
+            MainTab.PURCHASE -> PurchaseRoute(modifier = Modifier.padding(innerPadding))
+            MainTab.SEARCH -> SearchRoute(modifier = Modifier.padding(innerPadding))
+            MainTab.WEBTOON -> WebtoonRoute(modifier = Modifier.padding(innerPadding))
             MainTab.STORAGE -> StorageRoute(modifier = Modifier.padding(innerPadding))
         }
     }

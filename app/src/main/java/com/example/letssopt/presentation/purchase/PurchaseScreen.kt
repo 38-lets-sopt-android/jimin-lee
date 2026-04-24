@@ -9,7 +9,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 
 @Composable
-fun PurchaseScreen (
+fun PurchaseRoute(
+    modifier: Modifier = Modifier,
+) {
+    PurchaseScreen(modifier = modifier)
+}
+
+@Composable
+private fun PurchaseScreen (
     modifier: Modifier = Modifier,
 ){
     Box(

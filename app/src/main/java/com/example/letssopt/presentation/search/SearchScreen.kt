@@ -9,7 +9,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 
 @Composable
-fun SearchScreen (
+fun SearchRoute(
+    modifier: Modifier = Modifier,
+) {
+    SearchScreen(modifier = modifier)
+}
+
+@Composable
+private fun SearchScreen (
     modifier: Modifier = Modifier,
 ){
     Box(
