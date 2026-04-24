@@ -2,7 +2,7 @@ package com.example.letssopt.presentation.home
 
 import androidx.lifecycle.ViewModel
 import com.example.letssopt.R
-import com.example.letssopt.presentation.home.model.WatgoritmItemModel
+import com.example.letssopt.presentation.home.model.HomeItemModel
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -15,7 +15,7 @@ class HomeViewModel : ViewModel() {
 
     init {
         fetchNewContentItems()
-        fetchWatgorithmItems()
+        fetchHomeItems()
     }
 
     private fun fetchNewContentItems() {
@@ -31,17 +31,17 @@ class HomeViewModel : ViewModel() {
         }
     }
 
-    private fun fetchWatgorithmItems() {
+    private fun fetchHomeItems() {
         _uiState.update {
             it.copy(
-                watgorithmItems =
+                homeItems =
                     persistentListOf(
-                        WatgoritmItemModel(1, R.drawable.img_home_1),
-                        WatgoritmItemModel(2, R.drawable.img_home_2),
-                        WatgoritmItemModel(3, R.drawable.img_home_3),
-                        WatgoritmItemModel(4, R.drawable.img_home_1),
-                        WatgoritmItemModel(5, R.drawable.img_home_2),
-                        WatgoritmItemModel(6, R.drawable.img_home_3),
+                        HomeItemModel(1, R.drawable.img_home_1),
+                        HomeItemModel(2, R.drawable.img_home_2),
+                        HomeItemModel(3, R.drawable.img_home_3),
+                        HomeItemModel(4, R.drawable.img_home_1),
+                        HomeItemModel(5, R.drawable.img_home_2),
+                        HomeItemModel(6, R.drawable.img_home_3),
                     )
             )
         }
