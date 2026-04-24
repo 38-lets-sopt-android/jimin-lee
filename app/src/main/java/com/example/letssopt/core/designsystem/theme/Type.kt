@@ -18,6 +18,7 @@ import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme.typography
 
 object PretendardFont {
     val Light = FontFamily(Font(R.font.pretendard_light))
+    val Medium = FontFamily(Font(R.font.pretendard_medium))
     val SemiBold = FontFamily(Font(R.font.pretendard_semibold))
     val Regular = FontFamily(Font(R.font.pretendard_regular))
     val Bold = FontFamily(Font(R.font.pretendard_bold))
@@ -55,6 +56,11 @@ sealed interface TypographyTokens {
     ) : TypographyTokens
 
     @Immutable
+    data class SubH3(
+        val semibold12: TextStyle,
+    ) : TypographyTokens
+
+    @Immutable
     data class Body(
         val regular16: TextStyle,
     ) : TypographyTokens
@@ -62,6 +68,11 @@ sealed interface TypographyTokens {
     @Immutable
     data class Body2(
         val regular12: TextStyle,
+    ) : TypographyTokens
+
+    @Immutable
+    data class Body3(
+        val medium12: TextStyle,
     ) : TypographyTokens
 
     @Immutable
@@ -83,8 +94,10 @@ data class LETSSOPTTypography(
     val h3: TypographyTokens.H3,
     val subhead1: TypographyTokens.SubH1,
     val subhead2: TypographyTokens.SubH2,
+    val subhead3: TypographyTokens.SubH3,
     val body: TypographyTokens.Body,
     val body2: TypographyTokens.Body2,
+    val body3: TypographyTokens.Body3,
     val caption1: TypographyTokens.Caption1,
     val caption2: TypographyTokens.Caption2,
 )
@@ -142,6 +155,12 @@ val defaultLETSSOPTTypography = LETSSOPTTypography(
             fontSize = 18.sp,
         ),
     ),
+    subhead3 = TypographyTokens.SubH3(
+        semibold12 = LETSSOPTTextStyle(
+            fontFamily = PretendardFont.SemiBold,
+            fontSize = 12.sp,
+        ),
+    ),
     body = TypographyTokens.Body(
         regular16 = LETSSOPTTextStyle(
             fontFamily = PretendardFont.Regular,
@@ -151,6 +170,12 @@ val defaultLETSSOPTTypography = LETSSOPTTypography(
     body2 = TypographyTokens.Body2(
         regular12 = LETSSOPTTextStyle(
             fontFamily = PretendardFont.Regular,
+            fontSize = 12.sp,
+        ),
+    ),
+    body3 = TypographyTokens.Body3(
+        medium12 = LETSSOPTTextStyle(
+            fontFamily = PretendardFont.Medium,
             fontSize = 12.sp,
         ),
     ),
