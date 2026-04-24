@@ -206,7 +206,7 @@ private fun LoginScreen(
                         onClick = onSignUpTxtClick,
                     ),
                 color = LETSSOPTTheme.colors.txtSecondary,
-                style = LETSSOPTTheme.typography.caption.regular14,
+                style = LETSSOPTTheme.typography.caption1.regular14,
             )
 
             Spacer(modifier = Modifier.height(20.dp))

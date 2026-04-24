@@ -9,6 +9,7 @@ val Background = Color(0xFF141414)
 val Surface = Color(0xFF2A2A2A)
 val TextPrimary = Color(0xFFFFFFFF)
 val TextSecondary = Color(0xFF999999)
+val TextTertiary = Color(0xFFBABAC1)
 val PlaceHolder = Color(0xFF666666)
 val Disabled = Color(0xFF333333)
 
@@ -19,6 +20,7 @@ data class LETSSOPTColors(
     val surface: Color,
     val txtPrimary: Color,
     val txtSecondary: Color,
+    val txtTertiary: Color,
     val placeholder: Color,
     val disabled: Color,
 )
@@ -29,6 +31,7 @@ val defaultLETSSOPTColors = LETSSOPTColors(
     surface = Surface,
     txtPrimary = TextPrimary,
     txtSecondary = TextSecondary,
+    txtTertiary = TextTertiary,
     placeholder = PlaceHolder,
     disabled = Disabled,
 )
