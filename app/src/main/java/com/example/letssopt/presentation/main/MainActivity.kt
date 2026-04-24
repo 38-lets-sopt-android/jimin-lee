@@ -22,7 +22,7 @@ import com.example.letssopt.presentation.main.component.LetsSoptBottomBar
 import com.example.letssopt.presentation.main.component.MainTab
 import com.example.letssopt.presentation.purchase.PurchaseScreen
 import com.example.letssopt.presentation.search.SearchScreen
-import com.example.letssopt.presentation.storage.StorageScreen
+import com.example.letssopt.presentation.storage.StorageRoute
 import com.example.letssopt.presentation.webtoon.WebtoonScreen
 import kotlinx.collections.immutable.ImmutableList
 
@@ -86,7 +86,7 @@ private fun MainScreen(
             MainTab.PURCHASE -> PurchaseScreen(modifier = Modifier.padding(innerPadding))
             MainTab.SEARCH -> SearchScreen(modifier = Modifier.padding(innerPadding))
             MainTab.WEBTOON -> WebtoonScreen(modifier = Modifier.padding(innerPadding))
-            MainTab.STORAGE -> StorageScreen(modifier = Modifier.padding(innerPadding))
+            MainTab.STORAGE -> StorageRoute(modifier = Modifier.padding(innerPadding))
         }
     }
 }
