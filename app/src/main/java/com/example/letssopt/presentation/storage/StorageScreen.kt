@@ -20,6 +20,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.data.model.ContentItemModel
+import com.example.letssopt.presentation.storage.component.StorageEmpty
 import com.example.letssopt.presentation.storage.component.StorageItem
 import kotlinx.collections.immutable.persistentListOf
 
@@ -38,11 +39,11 @@ fun StorageRoute(
 }
 
 @Composable
-private fun StorageScreen (
+private fun StorageScreen(
     items: List<ContentItemModel>,
     onDeleteClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
-){
+) {
     Column(
         modifier = modifier
             .padding(top = 70.dp)
@@ -56,20 +57,25 @@ private fun StorageScreen (
 
         Spacer(modifier = Modifier.height(35.dp))
 
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(3),
-            contentPadding = PaddingValues(vertical = 10.dp),
-            horizontalArrangement = Arrangement.spacedBy(14.dp),
-            verticalArrangement = Arrangement.spacedBy(24.dp),
-        ) {
-            items(
-                items = items,
-                key = { it.id }
-            ) {item ->
-                StorageItem(
-                    item = item,
-                    onDeleteClick = { onDeleteClick(item.id) },
-                )
+        if (items.isEmpty()) {
+            StorageEmpty()
+        } else {
+
+            LazyVerticalGrid(
+                columns = GridCells.Fixed(3),
+                contentPadding = PaddingValues(vertical = 10.dp),
+                horizontalArrangement = Arrangement.spacedBy(14.dp),
+                verticalArrangement = Arrangement.spacedBy(24.dp),
+            ) {
+                items(
+                    items = items,
+                    key = { it.id }
+                ) { item ->
+                    StorageItem(
+                        item = item,
+                        onDeleteClick = { onDeleteClick(item.id) },
+                    )
+                }
             }
         }
     }
