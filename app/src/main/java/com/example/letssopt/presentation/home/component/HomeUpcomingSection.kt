@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
@@ -31,31 +30,21 @@ import kotlinx.collections.immutable.persistentListOf
 private const val ASPECT_RATIO = 2/3f
 
 @Composable
-fun HomeWatgorithm(
+fun HomeUpcomingSection(
     items: ImmutableList<ContentItemModel>,
     modifier: Modifier = Modifier,
 ) {
     Column(
         modifier = modifier,
     ) {
-        Image(
-            painter = painterResource(R.drawable.img_watgorithm),
-            contentDescription = null,
-            modifier = Modifier
-                .padding(horizontal = 16.dp)
-                .size(width = 80.dp, height = 26.dp),
-        )
-
-        Spacer(modifier = Modifier.height(4.dp))
-
         Row(
-            modifier = Modifier.padding(horizontal = 16.dp),
+            modifier = modifier.padding(horizontal = 16.dp),
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "예능부터 드라마까지!",
-                color = LETSSOPTTheme.colors.txtSecondary,
-                style = LETSSOPTTheme.typography.subhead1.semibold20,
+                text = "공개 예정 콘텐츠",
+                color = LETSSOPTTheme.colors.txtPrimary,
+                style = LETSSOPTTheme.typography.h3.semibold20,
             )
 
             Spacer(modifier = Modifier.weight(1f))
@@ -67,7 +56,7 @@ fun HomeWatgorithm(
             )
         }
 
-        Spacer(modifier = Modifier.height(6.dp))
+        Spacer(modifier = Modifier.height(8.dp))
 
         LazyRow(
             modifier = Modifier,
@@ -94,9 +83,9 @@ fun HomeWatgorithm(
 
 @Composable
 @Preview(showBackground = false)
-private fun HomeWatgorithmPreview() {
+private fun HomeUpcomingSectionPreview() {
     LETSSOPTTheme {
-        HomeWatgorithm(
+        HomeUpcomingSection(
             items = persistentListOf(
                 ContentItemModel(1, R.drawable.img_home_1),
                 ContentItemModel(2, R.drawable.img_home_2),

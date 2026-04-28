@@ -35,7 +35,7 @@ import kotlinx.collections.immutable.persistentListOf
 private const val ASPECT_RATIO = 49 / 34f
 
 @Composable
-fun HomeParty(
+fun HomePartySection(
     items: ImmutableList<HomePartyItemModel>,
     modifier: Modifier = Modifier,
 ) {
@@ -130,9 +130,9 @@ private fun HomePartyItem(
 
 @Composable
 @Preview(showBackground = false)
-private fun HomePartyPreview() {
+private fun HomePartySectionPreview() {
     LETSSOPTTheme {
-        HomeParty(
+        HomePartySection(
             items = persistentListOf(
                 HomePartyItemModel(1, R.drawable.img_home_party_1, "오늘 21:13에 시작", "# 왕과 사는 남자"),
                 HomePartyItemModel(2, R.drawable.img_home_party_2, "오늘 22:22에 시작", "# 파묘"),

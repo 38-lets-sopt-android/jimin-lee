@@ -18,9 +18,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.presentation.home.component.HomeNewContentBanner
-import com.example.letssopt.presentation.home.component.HomeParty
-import com.example.letssopt.presentation.home.component.HomeUpcoming
-import com.example.letssopt.presentation.home.component.HomeWatgorithm
+import com.example.letssopt.presentation.home.component.HomePartySection
+import com.example.letssopt.presentation.home.component.HomeUpcomingSection
+import com.example.letssopt.presentation.home.component.HomeWatgorithmSection
 
 
 @Composable
@@ -73,19 +73,19 @@ private fun HomeScreen(
 
         Spacer(modifier = Modifier.height(26.dp))
 
-        HomeWatgorithm(
+        HomeWatgorithmSection(
             items = uiState.homeItems,
         )
 
         Spacer(modifier = Modifier.height(26.dp))
 
-        HomeUpcoming(
+        HomeUpcomingSection(
             items = uiState.homeItems,
         )
 
         Spacer(modifier = Modifier.height(26.dp))
 
-        HomeParty(
+        HomePartySection(
             items = uiState.homePartyItems,
         )
 
