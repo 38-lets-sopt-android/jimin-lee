@@ -11,10 +11,9 @@ inline fun Modifier.noRippleClickable(
     enabled: Boolean = true,
 ): Modifier = composed {
     clickable(
-        indication = null,
         interactionSource = remember { MutableInteractionSource() },
+        indication = null,
         enabled = enabled,
-    ) {
-        onClick()
-    }
+        onClick = { onClick() }
+    )
 }
