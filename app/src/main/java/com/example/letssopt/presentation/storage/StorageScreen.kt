@@ -22,6 +22,7 @@ import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.data.model.ContentItemModel
 import com.example.letssopt.presentation.storage.component.StorageEmpty
 import com.example.letssopt.presentation.storage.component.StorageItem
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
 @Composable
@@ -40,7 +41,7 @@ fun StorageRoute(
 
 @Composable
 private fun StorageScreen(
-    items: List<ContentItemModel>,
+    items: ImmutableList<ContentItemModel>,
     onDeleteClick: (Int) -> Unit,
     modifier: Modifier = Modifier,
 ) {
