@@ -38,7 +38,7 @@ fun LetsSoptTextField(
     onValueChange: (String) -> Unit,
     modifier: Modifier = Modifier,
     inputTextColor: Color = LETSSOPTTheme.colors.txtPrimary,
-    textStyle: TextStyle = LETSSOPTTheme.typography.caption.regular14,
+    textStyle: TextStyle = LETSSOPTTheme.typography.caption1.regular14,
     keyboardOptions: KeyboardOptions = KeyboardOptions(imeAction = ImeAction.Done),
     keyboardActions: KeyboardActions = KeyboardActions(),
     visualTransformation: VisualTransformation = VisualTransformation.None,

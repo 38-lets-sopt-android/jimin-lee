@@ -17,6 +17,9 @@ import com.example.letssopt.R
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme.typography
 
 object PretendardFont {
+    val Light = FontFamily(Font(R.font.pretendard_light))
+    val Medium = FontFamily(Font(R.font.pretendard_medium))
+    val SemiBold = FontFamily(Font(R.font.pretendard_semibold))
     val Regular = FontFamily(Font(R.font.pretendard_regular))
     val Bold = FontFamily(Font(R.font.pretendard_bold))
 }
@@ -38,13 +41,48 @@ sealed interface TypographyTokens {
     ) : TypographyTokens
 
     @Immutable
+    data class H3(
+        val semibold20: TextStyle,
+    ) : TypographyTokens
+
+    @Immutable
+    data class SubH1(
+        val semibold20: TextStyle,
+    ) : TypographyTokens
+
+    @Immutable
+    data class SubH2(
+        val semibold18: TextStyle,
+    ) : TypographyTokens
+
+    @Immutable
+    data class SubH3(
+        val semibold12: TextStyle,
+    ) : TypographyTokens
+
+    @Immutable
     data class Body(
         val regular16: TextStyle,
     ) : TypographyTokens
 
     @Immutable
-    data class Caption(
+    data class Body2(
+        val regular12: TextStyle,
+    ) : TypographyTokens
+
+    @Immutable
+    data class Body3(
+        val medium12: TextStyle,
+    ) : TypographyTokens
+
+    @Immutable
+    data class Caption1(
         val regular14: TextStyle,
+    ) : TypographyTokens
+
+    @Immutable
+    data class Caption2(
+        val light12: TextStyle,
     ) : TypographyTokens
 }
 
@@ -53,8 +91,15 @@ data class LETSSOPTTypography(
     val l1: TypographyTokens.L1,
     val h1: TypographyTokens.H1,
     val h2: TypographyTokens.H2,
+    val h3: TypographyTokens.H3,
+    val subhead1: TypographyTokens.SubH1,
+    val subhead2: TypographyTokens.SubH2,
+    val subhead3: TypographyTokens.SubH3,
     val body: TypographyTokens.Body,
-    val caption: TypographyTokens.Caption,
+    val body2: TypographyTokens.Body2,
+    val body3: TypographyTokens.Body3,
+    val caption1: TypographyTokens.Caption1,
+    val caption2: TypographyTokens.Caption2,
 )
 
 private fun LETSSOPTTextStyle(
@@ -92,16 +137,58 @@ val defaultLETSSOPTTypography = LETSSOPTTypography(
             fontSize = 20.sp,
         ),
     ),
+    h3 = TypographyTokens.H3(
+        semibold20 = LETSSOPTTextStyle(
+            fontFamily = PretendardFont.SemiBold,
+            fontSize = 20.sp,
+        ),
+    ),
+    subhead1 = TypographyTokens.SubH1(
+        semibold20 = LETSSOPTTextStyle(
+            fontFamily = PretendardFont.SemiBold,
+            fontSize = 20.sp,
+        ),
+    ),
+    subhead2 = TypographyTokens.SubH2(
+        semibold18 = LETSSOPTTextStyle(
+            fontFamily = PretendardFont.SemiBold,
+            fontSize = 18.sp,
+        ),
+    ),
+    subhead3 = TypographyTokens.SubH3(
+        semibold12 = LETSSOPTTextStyle(
+            fontFamily = PretendardFont.SemiBold,
+            fontSize = 12.sp,
+        ),
+    ),
     body = TypographyTokens.Body(
         regular16 = LETSSOPTTextStyle(
             fontFamily = PretendardFont.Regular,
             fontSize = 16.sp,
         ),
     ),
-    caption = TypographyTokens.Caption(
+    body2 = TypographyTokens.Body2(
+        regular12 = LETSSOPTTextStyle(
+            fontFamily = PretendardFont.Regular,
+            fontSize = 12.sp,
+        ),
+    ),
+    body3 = TypographyTokens.Body3(
+        medium12 = LETSSOPTTextStyle(
+            fontFamily = PretendardFont.Medium,
+            fontSize = 12.sp,
+        ),
+    ),
+    caption1 = TypographyTokens.Caption1(
         regular14 = LETSSOPTTextStyle(
             fontFamily = PretendardFont.Regular,
             fontSize = 14.sp,
+        ),
+    ),
+    caption2 = TypographyTokens.Caption2(
+        light12 = LETSSOPTTextStyle(
+            fontFamily = PretendardFont.Light,
+            fontSize = 12.sp,
         ),
     ),
 )
@@ -117,7 +204,7 @@ fun LETSSOPTTypographyPreview() {
             Text("제목 H1.bold24", style = typography.h1.bold24)
             Text("제목 H2.bold20", style = typography.h2.bold20)
             Text("본문 Body.regular16", style = typography.body.regular16)
-            Text("캡션 Caption.regular14", style = typography.caption.regular14)
+            Text("캡션 Caption.regular14", style = typography.caption1.regular14)
         }
     }
 }
