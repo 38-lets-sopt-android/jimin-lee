@@ -1,5 +1,6 @@
 package com.example.letssopt.presentation.home.component
 
+import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -83,7 +84,7 @@ fun HomeNewContentBanner(
 
 @Composable
 private fun NewContentCard(
-    item: Int,
+    @DrawableRes item: Int,
     modifier: Modifier = Modifier,
 ) {
     Image(
