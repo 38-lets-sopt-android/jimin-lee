@@ -5,4 +5,5 @@ import androidx.annotation.DrawableRes
 data class ContentItemModel(
     val id: Int,
     @DrawableRes val img: Int,
+    val title: String = "",
 )
