@@ -1,15 +1,9 @@
 package com.example.letssopt.presentation.login
 
-import android.content.Intent
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -20,7 +14,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -48,45 +41,11 @@ import com.example.letssopt.core.extension.noRippleClickable
 import com.example.letssopt.core.extension.toast
 import com.example.letssopt.core.utils.PreferencesUtil
 import com.example.letssopt.presentation.login.LoginContract.LoginResult
-import com.example.letssopt.presentation.main.MainActivity
-import com.example.letssopt.presentation.signup.SignUpActivity
-
-class LoginActivity : ComponentActivity() {
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-            LETSSOPTTheme {
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    contentWindowInsets = WindowInsets(),
-                ) { innerPadding ->
-                    LoginRoute(
-                        onSignUpTxtClick = {
-                            val intent = Intent(this, SignUpActivity::class.java)
-                            startActivity(intent)
-                        },
-                        onLoginSuccess = {
-                            val intent = Intent(this, MainActivity::class.java).apply {
-                                flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                            }
-                            startActivity(intent)
-                        },
-                        onShowToast = { toast(it) },
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
-    }
-}
 
 @Composable
 fun LoginRoute(
     onSignUpTxtClick: () -> Unit,
     onLoginSuccess: () -> Unit,
-    onShowToast: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = viewModel()
 ) {
@@ -105,13 +64,13 @@ fun LoginRoute(
         onLoginBtnClick = {
             when(viewModel.validateLogin(savedUserInfo = savedUserInfo)) {
                 LoginResult.EmptyFailure -> {
-                    onShowToast("아이디와 비밀번호를 입력해주세요")
+                    context.toast("아이디와 비밀번호를 입력해주세요")
                 }
                 LoginResult.InvalidFailure -> {
-                    onShowToast("아이디 또는 비밀번호가 일치하지 않습니다")
+                    context.toast("아이디 또는 비밀번호가 일치하지 않습니다")
                 }
                 LoginResult.Success -> {
-                    onShowToast("로그인에 성공했습니다")
+                    context.toast("로그인에 성공했습니다")
                     onLoginSuccess()
                 }
             }
