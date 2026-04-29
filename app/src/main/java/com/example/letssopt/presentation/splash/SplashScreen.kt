@@ -1,6 +1,5 @@
 package com.example.letssopt.presentation.splash
 
-import android.content.Intent
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -13,12 +12,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.letssopt.core.designsystem.component.text.LogoText
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.utils.PreferencesUtil
-import com.example.letssopt.presentation.login.LoginActivity
-import com.example.letssopt.presentation.main.MainActivity
 import kotlinx.coroutines.delay
 
 @Composable
 fun SplashRoute(
+    navigateToHome: () -> Unit,
+    navigateToLogin: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -28,11 +27,9 @@ fun SplashRoute(
     LaunchedEffect(Unit) {
         delay(2000L)
         if(userInfo.email.isNotEmpty() && userInfo.password.isNotEmpty()) {
-            val intent = Intent(context, MainActivity::class.java)
-            context.startActivity(intent)
+            navigateToHome()
         } else {
-            val intent = Intent(context, LoginActivity::class.java)
-            context.startActivity(intent)
+            navigateToLogin()
         }
     }
 
