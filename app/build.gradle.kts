@@ -53,6 +53,8 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel)
     implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.kotlinx.collections.immutable)
+    implementation(libs.androidx.compose.navigation)
+    implementation(libs.kotlinx.serialization.json)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
