@@ -8,6 +8,7 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.example.letssopt.core.navigation.Route
+import com.example.letssopt.presentation.home.navigation.navigateToHome
 import com.example.letssopt.presentation.signup.SignUpRoute
 import kotlinx.serialization.Serializable
 
@@ -26,8 +27,7 @@ fun NavGraphBuilder.signUpGraph(
 ) {
     composable<SignUp> {
         SignUpRoute(
-            onSignUpSuccess = {},
-            onShowToast = {},
+            onSignUpSuccess = { navController.navigateToHome() },
             modifier = Modifier.padding(innerPadding)
         )
     }

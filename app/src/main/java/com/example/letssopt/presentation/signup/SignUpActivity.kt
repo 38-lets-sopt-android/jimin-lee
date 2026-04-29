@@ -1,14 +1,9 @@
 package com.example.letssopt.presentation.signup
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,7 +14,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -44,35 +38,9 @@ import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.extension.toast
 import com.example.letssopt.core.utils.PreferencesUtil
 
-class SignUpActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
-
-            LETSSOPTTheme {
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    contentWindowInsets = WindowInsets(),
-                ) { innerPadding ->
-                    SignUpRoute(
-                        onSignUpSuccess = {
-                            setResult(RESULT_OK)
-                            finish()
-                        },
-                        onShowToast = { toast(it) },
-                        modifier = Modifier.padding(innerPadding)
-                    )
-                }
-            }
-        }
-    }
-}
-
 @Composable
 fun SignUpRoute(
     onSignUpSuccess: () -> Unit,
-    onShowToast: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SignUpViewModel = viewModel(),
 ) {
@@ -91,13 +59,13 @@ fun SignUpRoute(
         onPasswordConfirmChange = viewModel::updatePasswordConfirmText,
         onSignUpBtnClick = {
             viewModel.checkValidation(
-                onFailure = onShowToast,
+                onFailure = { context.toast(it) },
                 onSuccess = {
                     prefs.setUserInfo(
                         email = uiState.email,
                         password = uiState.password,
                     )
-                    onShowToast("회원가입이 완료되었습니다")
+                    context.toast("회원가입이 완료되었습니다")
                     onSignUpSuccess()
                 },
             )
