@@ -70,7 +70,7 @@ class SignUpActivity : ComponentActivity() {
 }
 
 @Composable
-private fun SignUpRoute(
+fun SignUpRoute(
     onSignUpSuccess: () -> Unit,
     onShowToast: (String) -> Unit,
     modifier: Modifier = Modifier,

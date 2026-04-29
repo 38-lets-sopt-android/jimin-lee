@@ -83,7 +83,7 @@ class LoginActivity : ComponentActivity() {
 }
 
 @Composable
-private fun LoginRoute(
+fun LoginRoute(
     onSignUpTxtClick: () -> Unit,
     onLoginSuccess: () -> Unit,
     onShowToast: (String) -> Unit,

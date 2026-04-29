@@ -1,0 +1,27 @@
+package com.example.letssopt.presentation.signup.navigation
+
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.padding
+import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.compose.composable
+import com.example.letssopt.core.navigation.Route
+import com.example.letssopt.presentation.signup.SignUpRoute
+import kotlinx.serialization.Serializable
+
+fun NavGraphBuilder.signUpGraph(
+    navController: NavController,
+    innerPadding: PaddingValues,
+) {
+    composable<SignUp> {
+        SignUpRoute(
+            onSignUpSuccess = {},
+            onShowToast = {},
+            modifier = Modifier.padding(innerPadding)
+        )
+    }
+}
+
+@Serializable
+data object SignUp : Route
