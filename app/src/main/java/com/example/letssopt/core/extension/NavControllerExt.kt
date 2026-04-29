@@ -16,5 +16,6 @@ fun NavController.clearBackStackWithRestoreNavOptions() = navOptions {
         saveState = true
         inclusive = true
     }
+    launchSingleTop = true
     restoreState = true
 }
