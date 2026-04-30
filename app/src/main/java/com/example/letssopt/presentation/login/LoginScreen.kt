@@ -16,6 +16,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -30,7 +31,10 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.core.designsystem.component.LetsSoptButton
 import com.example.letssopt.core.designsystem.component.LetsSoptTextField
@@ -40,41 +44,45 @@ import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.extension.noRippleClickable
 import com.example.letssopt.core.extension.toast
 import com.example.letssopt.core.utils.PreferencesUtil
-import com.example.letssopt.presentation.login.LoginContract.LoginResult
+import com.example.letssopt.presentation.login.LoginContract.SideEffect.NavigateToHome
+import com.example.letssopt.presentation.login.LoginContract.SideEffect.NavigateToSignUp
+import com.example.letssopt.presentation.login.LoginContract.SideEffect.OnShowToast
 
 @Composable
 fun LoginRoute(
-    onSignUpTxtClick: () -> Unit,
-    onLoginSuccess: () -> Unit,
+    navigateToSignUp: () -> Unit,
+    navigateToHome: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: LoginViewModel = viewModel()
 ) {
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
 
     val prefs = PreferencesUtil(context)
     val savedUserInfo = prefs.getUserInfo()
+
+    LaunchedEffect(Unit) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.sideEffect.collect { effect ->
+                when (effect) {
+                    is OnShowToast -> {
+                        context.toast(effect.message)
+                    }
+                    NavigateToHome -> navigateToHome()
+                    NavigateToSignUp -> navigateToSignUp()
+                }
+            }
+        }
+    }
 
     LoginScreen(
         email = uiState.email,
         password = uiState.password,
         onEmailChange = viewModel::updateEmailText,
         onPasswordChange = viewModel::updatePasswordText,
-        onSignUpTxtClick = onSignUpTxtClick,
-        onLoginBtnClick = {
-            when(viewModel.validateLogin(savedUserInfo = savedUserInfo)) {
-                LoginResult.EmptyFailure -> {
-                    context.toast("아이디와 비밀번호를 입력해주세요")
-                }
-                LoginResult.InvalidFailure -> {
-                    context.toast("아이디 또는 비밀번호가 일치하지 않습니다")
-                }
-                LoginResult.Success -> {
-                    context.toast("로그인에 성공했습니다")
-                    onLoginSuccess()
-                }
-            }
-        },
+        onSignUpTxtClick = navigateToSignUp,
+        onLoginBtnClick = { viewModel.validateLogin(savedUserInfo) },
         modifier = modifier,
     )
 }

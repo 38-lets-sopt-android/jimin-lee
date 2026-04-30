@@ -29,8 +29,8 @@ fun NavGraphBuilder.loginGraph(
 ) {
     composable<Login> {
         LoginRoute(
-            onSignUpTxtClick = navController::navigateToSignUp,
-            onLoginSuccess = navController::navigateToHome,
+            navigateToSignUp = navController::navigateToSignUp,
+            navigateToHome = navController::navigateToHome,
             modifier = Modifier.padding(innerPadding)
         )
     }
