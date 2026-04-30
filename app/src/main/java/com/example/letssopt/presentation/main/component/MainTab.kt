@@ -3,6 +3,7 @@ package com.example.letssopt.presentation.main.component
 import androidx.annotation.DrawableRes
 import com.example.letssopt.R
 import com.example.letssopt.core.navigation.MainTabRoute
+import com.example.letssopt.core.navigation.Route
 import com.example.letssopt.presentation.home.navigation.Home
 import com.example.letssopt.presentation.purchase.navigation.Purchase
 import com.example.letssopt.presentation.search.navigation.Search
@@ -39,4 +40,14 @@ enum class MainTab(
         label = "보관함",
         route = Storage,
     );
+
+    companion object {
+        fun find(predicate: (MainTabRoute) -> Boolean): MainTab? {
+            return entries.find { predicate(it.route) }
+        }
+
+        fun contains(predicate: (Route) -> Boolean): Boolean {
+            return entries.map { it.route }.any { predicate(it) }
+        }
+    }
 }
