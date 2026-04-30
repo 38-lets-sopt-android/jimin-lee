@@ -30,21 +30,19 @@ class LoginViewModel : ViewModel() {
 
     fun validateLogin(
         savedUserInfo: UserInfo,
-    ) {
+    ) = viewModelScope.launch {
         val state = uiState.value
         val email = state.email
         val password = state.password
         val savedEmail = savedUserInfo.email
         val savedPassword = savedUserInfo.password
 
-        viewModelScope.launch {
-            when {
-                email.isBlank() || password.isBlank() -> _sideEffect.send(OnShowToast("아이디와 비밀번호를 입력해주세요"))
-                email != savedEmail || password != savedPassword -> _sideEffect.send(OnShowToast("아이디 또는 비밀번호가 일치하지 않습니다"))
-                else -> {
-                    _sideEffect.send(OnShowToast("로그인에 성공했습니다"))
-                    _sideEffect.send(NavigateToHome)
-                }
+        when {
+            email.isBlank() || password.isBlank() -> _sideEffect.send(OnShowToast("아이디와 비밀번호를 입력해주세요"))
+            email != savedEmail || password != savedPassword -> _sideEffect.send(OnShowToast("아이디 또는 비밀번호가 일치하지 않습니다"))
+            else -> {
+                _sideEffect.send(OnShowToast("로그인에 성공했습니다"))
+                _sideEffect.send(NavigateToHome)
             }
         }
     }
