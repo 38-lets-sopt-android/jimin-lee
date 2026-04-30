@@ -27,8 +27,8 @@ fun NavGraphBuilder.signUpGraph(
 ) {
     composable<SignUp> {
         SignUpRoute(
-            onSignUpSuccess = navController::navigateToLogin,
-            modifier = Modifier.padding(innerPadding)
+            navigateToLogin = navController::navigateToLogin,
+            modifier = Modifier.padding(innerPadding),
         )
     }
 }

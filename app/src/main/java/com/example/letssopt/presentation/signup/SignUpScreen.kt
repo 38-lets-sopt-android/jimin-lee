@@ -15,6 +15,7 @@ import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,7 +29,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.core.designsystem.component.LetsSoptButton
 import com.example.letssopt.core.designsystem.component.LetsSoptTextField
@@ -37,18 +41,33 @@ import com.example.letssopt.core.designsystem.component.text.ScreenText
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.extension.toast
 import com.example.letssopt.core.utils.PreferencesUtil
+import com.example.letssopt.presentation.signup.SignUpContract.SideEffect.NavigateToLogin
+import com.example.letssopt.presentation.signup.SignUpContract.SideEffect.OnShowToast
 
 @Composable
 fun SignUpRoute(
-    onSignUpSuccess: () -> Unit,
+    navigateToLogin: () -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SignUpViewModel = viewModel(),
 ) {
     val context = LocalContext.current
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val lifecycleOwner = LocalLifecycleOwner.current
 
     val prefs = PreferencesUtil(context)
 
+    LaunchedEffect(Unit) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.sideEffect.collect { effect ->
+                when (effect) {
+                    is OnShowToast -> {
+                        context.toast(effect.message)
+                    }
+                    NavigateToLogin -> navigateToLogin()
+                }
+            }
+        }
+    }
     SignUpScreen(
         isBtnEnabled = viewModel.isBtnEnabled,
         email = uiState.email,
@@ -59,15 +78,7 @@ fun SignUpRoute(
         onPasswordConfirmChange = viewModel::updatePasswordConfirmText,
         onSignUpBtnClick = {
             viewModel.checkValidation(
-                onFailure = { context.toast(it) },
-                onSuccess = {
-                    prefs.setUserInfo(
-                        email = uiState.email,
-                        password = uiState.password,
-                    )
-                    context.toast("회원가입이 완료되었습니다")
-                    onSignUpSuccess()
-                },
+               prefs = prefs,
             )
         },
         modifier = modifier,

@@ -7,4 +7,9 @@ interface SignUpContract {
         val password: String = "",
         val passwordConfirm: String = "",
     )
+
+    sealed class SideEffect {
+        data class OnShowToast(val message: String) : SideEffect()
+        data object NavigateToLogin : SideEffect()
+    }
 }
