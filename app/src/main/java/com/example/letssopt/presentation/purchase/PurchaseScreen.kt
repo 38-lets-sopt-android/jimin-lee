@@ -13,13 +13,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.data.model.ContentItemModel
+import com.example.letssopt.data.local.entity.StorageEntity
 import com.example.letssopt.presentation.purchase.component.PurchaseItem
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -27,21 +28,26 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun PurchaseRoute(
     modifier: Modifier = Modifier,
-    viewModel: PurchaseViewModel = viewModel(),
 ) {
+    val context = LocalContext.current
+
+    val viewModel: PurchaseViewModel = viewModel(
+        factory = PurchaseViewModelFactory(context)
+    )
+
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     PurchaseScreen(
         items = uiState.purchaseItems,
-        onSaveClick = { },
+        onSaveClick = { viewModel.addStorageItems(it) },
         modifier = modifier,
     )
 }
 
 @Composable
 private fun PurchaseScreen(
-    items: ImmutableList<ContentItemModel>,
-    onSaveClick: (Int) -> Unit,
+    items: ImmutableList<StorageEntity>,
+    onSaveClick: (StorageEntity) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -69,7 +75,7 @@ private fun PurchaseScreen(
             ) { item ->
                 PurchaseItem(
                     item = item,
-                    onSaveClick = { onSaveClick(item.id) },
+                    onSaveClick = { onSaveClick(item) },
                 )
             }
         }
@@ -82,10 +88,10 @@ private fun PurchaseScreenPreview() {
     LETSSOPTTheme {
         PurchaseScreen(
             items = persistentListOf(
-                ContentItemModel(1, R.drawable.img_home_1, "이 사랑 통역 되나요"),
-                ContentItemModel(2, R.drawable.img_home_2, "이상한일5"),
-                ContentItemModel(3, R.drawable.img_home_3, "하일매리"),
-                ContentItemModel(4, R.drawable.img_home_1, "이 사랑 통역 되나요"),
+                StorageEntity(1L, "이 사랑 통역 되나요",R.drawable.img_home_1),
+                StorageEntity(2L, "이상한일5", R.drawable.img_home_2),
+                StorageEntity(3L, "하일매리", R.drawable.img_home_3),
+                StorageEntity(4L, "이 사랑 통역 되나요", R.drawable.img_home_1),
             ),
             onSaveClick = {},
         )
