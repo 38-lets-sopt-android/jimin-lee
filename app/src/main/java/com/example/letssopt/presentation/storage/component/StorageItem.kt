@@ -21,13 +21,13 @@ import androidx.compose.ui.unit.dp
 import com.example.letssopt.R
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.extension.noRippleClickable
-import com.example.letssopt.data.model.ContentItemModel
+import com.example.letssopt.data.local.entity.StorageEntity
 
 private const val ASPECT_RATIO = 2/3f
 
 @Composable
 fun StorageItem(
-    item: ContentItemModel,
+    item: StorageEntity,
     onDeleteClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
@@ -60,7 +60,7 @@ fun StorageItem(
 private fun StorageItemPreview() {
     LETSSOPTTheme {
         StorageItem(
-            item = ContentItemModel(1, R.drawable.img_home_1),
+            item = StorageEntity(1, "", R.drawable.img_home_1),
             onDeleteClick = {},
         )
     }
