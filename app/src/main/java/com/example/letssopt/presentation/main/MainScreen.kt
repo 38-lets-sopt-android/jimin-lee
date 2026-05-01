@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.letssopt.core.designsystem.component.LetsSoptTopBar
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.presentation.main.component.LetsSoptBottomBar
+import com.example.letssopt.presentation.main.component.MainBottomBar
 import com.example.letssopt.presentation.main.component.MainTab
 import kotlinx.collections.immutable.toPersistentList
 
@@ -44,7 +44,7 @@ fun MainScreen(
             }
         },
         bottomBar = {
-            LetsSoptBottomBar(
+            MainBottomBar(
                 isVisible = isBottomBarVisible,
                 items = MainTab.entries.toPersistentList(),
                 selectedItem = currentTab,

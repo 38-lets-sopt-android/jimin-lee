@@ -35,7 +35,7 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-fun LetsSoptBottomBar(
+fun MainBottomBar(
     isVisible: Boolean,
     items: ImmutableList<MainTab>,
     selectedItem: MainTab?,
@@ -109,11 +109,11 @@ private fun BottomBarItem(
 
 @Preview
 @Composable
-private fun LetsSoptBottomBarPreview() {
+private fun MainBottomBarPreview() {
     LETSSOPTTheme {
         var selectedItem by remember { mutableStateOf(MainTab.HOME) }
 
-        LetsSoptBottomBar(
+        MainBottomBar(
             isVisible = true,
             items = MainTab.entries.toImmutableList(),
             selectedItem = MainTab.HOME,
