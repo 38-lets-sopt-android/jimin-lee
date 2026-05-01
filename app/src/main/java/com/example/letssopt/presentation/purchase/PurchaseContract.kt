@@ -8,4 +8,8 @@ interface PurchaseContract {
     data class State(
         val purchaseItems: ImmutableList<StorageEntity> = persistentListOf(),
     )
+
+    sealed class SideEffect {
+        data class OnShowToast(val message: String) : SideEffect()
+    }
 }

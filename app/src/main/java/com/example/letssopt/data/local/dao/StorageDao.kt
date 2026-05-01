@@ -18,4 +18,7 @@ interface StorageDao {
 
     @Delete
     suspend fun deleteStorageItems(item: StorageEntity)
+
+    @Query("SELECT EXISTS(SELECT 1 FROM storage WHERE id = :id)")
+    suspend fun isItemStored(id: Long): Boolean
 }
