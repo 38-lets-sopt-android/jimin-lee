@@ -36,7 +36,7 @@ class PurchaseViewModel(
                 _sideEffect.send(OnShowToast("이미 저장한 아이템입니다."))
             } else {
                 storageDao.insertStorageItems(item)
-                _sideEffect.send(OnShowToast("\'${item.title}\'을(를) 저장하였습니다."))
+                _sideEffect.send(OnShowToast("\'${item.title}\' 을(를) 저장하였습니다."))
             }
         }
     }

@@ -105,7 +105,7 @@ data class LETSSOPTTypography(
 private fun LETSSOPTTextStyle(
     fontFamily: FontFamily,
     fontSize: TextUnit,
-    lineHeight: TextUnit = 1.0.em,
+    lineHeight: TextUnit = 1.2.em,
     letterSpacing: TextUnit = 0.sp,
 ): TextStyle = TextStyle(
     fontFamily = fontFamily,
