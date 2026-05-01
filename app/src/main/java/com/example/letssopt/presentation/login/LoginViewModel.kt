@@ -2,7 +2,7 @@ package com.example.letssopt.presentation.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.letssopt.data.model.UserInfo
+import com.example.letssopt.core.utils.PreferencesUtil
 import com.example.letssopt.presentation.login.LoginContract.SideEffect.NavigateToHome
 import com.example.letssopt.presentation.login.LoginContract.SideEffect.OnShowToast
 import kotlinx.coroutines.channels.Channel
@@ -12,7 +12,9 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class LoginViewModel : ViewModel() {
+class LoginViewModel(
+    private val preferences: PreferencesUtil,
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(LoginContract.State())
     val uiState = _uiState.asStateFlow()
@@ -28,12 +30,11 @@ class LoginViewModel : ViewModel() {
         _uiState.update { it.copy(password = newPW) }
     }
 
-    fun validateLogin(
-        savedUserInfo: UserInfo,
-    ) = viewModelScope.launch {
+    fun validateLogin() = viewModelScope.launch {
         val state = uiState.value
         val email = state.email
         val password = state.password
+        val savedUserInfo = preferences.getUserInfo()
         val savedEmail = savedUserInfo.email
         val savedPassword = savedUserInfo.password
 
