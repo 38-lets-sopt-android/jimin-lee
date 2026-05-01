@@ -12,7 +12,9 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class SignUpViewModel : ViewModel() {
+class SignUpViewModel(
+    private val preferences: PreferencesUtil,
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SignUpContract.State())
     val uiState = _uiState.asStateFlow()
@@ -25,9 +27,7 @@ class SignUpViewModel : ViewModel() {
                 uiState.value.password.isNotEmpty() &&
                 uiState.value.passwordConfirm.isNotEmpty()
 
-    fun checkValidation(
-        prefs: PreferencesUtil
-    ) = viewModelScope.launch {
+    fun checkValidation() = viewModelScope.launch {
         val email = _uiState.value.email
         val password = _uiState.value.password
         val passwordConfirm = _uiState.value.passwordConfirm
@@ -42,7 +42,7 @@ class SignUpViewModel : ViewModel() {
             !isPasswordValid -> _sideEffect.send(OnShowToast("비밀번호는 8~12자로 입력해주세요"))
             !isPasswordMatch -> _sideEffect.send(OnShowToast("비밀번호가 일치하지 않습니다"))
             else -> {
-                prefs.setUserInfo(
+                preferences.setUserInfo(
                     email = email,
                     password = password,
                 )

@@ -40,7 +40,6 @@ import com.example.letssopt.core.designsystem.component.text.LogoText
 import com.example.letssopt.core.designsystem.component.text.ScreenText
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.extension.toast
-import com.example.letssopt.core.utils.PreferencesUtil
 import com.example.letssopt.presentation.signup.SignUpContract.SideEffect.NavigateToLogin
 import com.example.letssopt.presentation.signup.SignUpContract.SideEffect.OnShowToast
 
@@ -48,13 +47,13 @@ import com.example.letssopt.presentation.signup.SignUpContract.SideEffect.OnShow
 fun SignUpRoute(
     navigateToLogin: () -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SignUpViewModel = viewModel(),
 ) {
     val context = LocalContext.current
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val lifecycleOwner = LocalLifecycleOwner.current
-
-    val prefs = PreferencesUtil(context)
+    val viewModel: SignUpViewModel = viewModel(
+        factory = SignUpViewModelFactory(context)
+    )
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     LaunchedEffect(Unit) {
         lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
@@ -76,11 +75,7 @@ fun SignUpRoute(
         onEmailChange = viewModel::updateEmailText,
         onPasswordChange = viewModel::updatePasswordText,
         onPasswordConfirmChange = viewModel::updatePasswordConfirmText,
-        onSignUpBtnClick = {
-            viewModel.checkValidation(
-               prefs = prefs,
-            )
-        },
+        onSignUpBtnClick = viewModel::checkValidation,
         modifier = modifier,
     )
 }
