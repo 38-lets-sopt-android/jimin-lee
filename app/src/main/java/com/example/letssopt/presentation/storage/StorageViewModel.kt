@@ -3,7 +3,8 @@ package com.example.letssopt.presentation.storage
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.letssopt.data.local.dao.StorageDao
-import com.example.letssopt.data.local.entity.StorageEntity
+import com.example.letssopt.data.mapper.toEntity
+import com.example.letssopt.data.model.StorageItemModel
 import kotlinx.collections.immutable.toImmutableList
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.map
@@ -20,7 +21,7 @@ class StorageViewModel(
         .map { items ->
             StorageContract.State(
                 storageItems = items.map { item ->
-                    StorageEntity(
+                    StorageItemModel(
                         id = item.id,
                         title = item.title,
                         img = item.img,
@@ -34,9 +35,9 @@ class StorageViewModel(
             initialValue = StorageContract.State()
         )
 
-    fun removeStorageItem(item: StorageEntity) {
+    fun removeStorageItem(item: StorageItemModel) {
         viewModelScope.launch {
-            storageDao.deleteStorageItems(item)
+            storageDao.deleteStorageItems(item.toEntity())
         }
     }
 }

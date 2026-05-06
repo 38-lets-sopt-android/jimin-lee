@@ -25,16 +25,17 @@ import androidx.compose.ui.unit.dp
 import com.example.letssopt.R
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.extension.noRippleClickable
-import com.example.letssopt.data.local.entity.StorageEntity
+import com.example.letssopt.data.model.StorageItemModel
 
 private const val ASPECT_RATIO = 2/3f
 
 @Composable
 fun PurchaseItem(
-    item: StorageEntity,
+    item: StorageItemModel,
     onSaveClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
+
     Column(
         modifier = modifier.width(100.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -76,7 +77,7 @@ fun PurchaseItem(
 private fun PurchaseItemPreview() {
     LETSSOPTTheme {
         PurchaseItem(
-            item = StorageEntity(1L, "이 사랑 통역 되나요", R.drawable.img_home_1),
+            item = StorageItemModel(1L, "이 사랑 통역 되나요", R.drawable.img_home_1),
             onSaveClick = {},
         )
     }

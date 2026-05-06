@@ -25,7 +25,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.extension.toast
-import com.example.letssopt.data.local.entity.StorageEntity
+import com.example.letssopt.data.model.StorageItemModel
 import com.example.letssopt.presentation.purchase.PurchaseContract.SideEffect.OnShowToast
 import com.example.letssopt.presentation.purchase.component.PurchaseItem
 import kotlinx.collections.immutable.ImmutableList
@@ -65,10 +65,11 @@ fun PurchaseRoute(
 
 @Composable
 private fun PurchaseScreen(
-    items: ImmutableList<StorageEntity>,
-    onSaveClick: (StorageEntity) -> Unit,
+    items: ImmutableList<StorageItemModel>,
+    onSaveClick: (StorageItemModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
+
     Column(
         modifier = modifier
             .padding(top = 70.dp)
@@ -107,10 +108,10 @@ private fun PurchaseScreenPreview() {
     LETSSOPTTheme {
         PurchaseScreen(
             items = persistentListOf(
-                StorageEntity(1L, "이 사랑 통역 되나요",R.drawable.img_home_1),
-                StorageEntity(2L, "이상한일5", R.drawable.img_home_2),
-                StorageEntity(3L, "하일매리", R.drawable.img_home_3),
-                StorageEntity(4L, "이 사랑 통역 되나요", R.drawable.img_home_1),
+                StorageItemModel(1L, "이 사랑 통역 되나요", R.drawable.img_home_1),
+                StorageItemModel(2L, "이상한일5", R.drawable.img_home_2),
+                StorageItemModel(3L, "하일매리", R.drawable.img_home_3),
+                StorageItemModel(4L, "이 사랑 통역 되나요", R.drawable.img_home_1),
             ),
             onSaveClick = {},
         )

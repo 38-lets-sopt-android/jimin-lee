@@ -20,7 +20,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.data.local.entity.StorageEntity
+import com.example.letssopt.data.model.StorageItemModel
 import com.example.letssopt.presentation.storage.component.StorageEmpty
 import com.example.letssopt.presentation.storage.component.StorageItem
 import kotlinx.collections.immutable.ImmutableList
@@ -45,8 +45,8 @@ fun StorageRoute(
 
 @Composable
 private fun StorageScreen(
-    items: ImmutableList<StorageEntity>,
-    onDeleteClick: (StorageEntity) -> Unit,
+    items: ImmutableList<StorageItemModel>,
+    onDeleteClick: (StorageItemModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -92,10 +92,10 @@ private fun StorageScreenPreview() {
     LETSSOPTTheme {
         StorageScreen(
             items = persistentListOf(
-                StorageEntity(1, "",R.drawable.img_home_1),
-                StorageEntity(2, "",R.drawable.img_home_2),
-                StorageEntity(3, "",R.drawable.img_home_3),
-                StorageEntity(4, "",R.drawable.img_home_1),
+                StorageItemModel(1L, "이 사랑 통역 되나요",R.drawable.img_home_1),
+                StorageItemModel(2L, "이상한일5", R.drawable.img_home_2),
+                StorageItemModel(3L, "하일매리", R.drawable.img_home_3),
+                StorageItemModel(4L, "이 사랑 통역 되나요", R.drawable.img_home_1),
             ),
             onDeleteClick = {},
         )
