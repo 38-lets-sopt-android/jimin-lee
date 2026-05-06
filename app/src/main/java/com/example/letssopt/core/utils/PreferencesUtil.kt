@@ -13,25 +13,25 @@ class PreferencesUtil(
         context.getSharedPreferences(PrefKeys.PREFERENCE_NAME, Context.MODE_PRIVATE)
 
     fun setUserInfo(
-        email: String,
+        id: String,
         password: String,
     ) {
         pref.edit {
-            putString(PrefKeys.KEY_PREFERENCES_EMAIL, email)
+            putString(PrefKeys.KEY_PREFERENCES_ID, id)
             putString(PrefKeys.KEY_PREFERENCES_PW, password)
         }
     }
 
     fun getUserInfo(): UserInfo {
         return UserInfo(
-            email = pref.getString(PrefKeys.KEY_PREFERENCES_EMAIL, "") ?: "",
+            id = pref.getString(PrefKeys.KEY_PREFERENCES_ID, "") ?: "",
             password = pref.getString(PrefKeys.KEY_PREFERENCES_PW, "") ?: "",
         )
     }
 
     object PrefKeys {
         const val PREFERENCE_NAME = "MyPref"
-        const val KEY_PREFERENCES_EMAIL = "emailKey"
+        const val KEY_PREFERENCES_ID = "idKey"
         const val KEY_PREFERENCES_PW = "passwordKey"
     }
 }

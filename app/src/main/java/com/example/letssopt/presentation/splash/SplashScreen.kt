@@ -26,7 +26,7 @@ fun SplashRoute(
 
     LaunchedEffect(Unit) {
         delay(2000L)
-        if(userInfo.email.isNotEmpty() && userInfo.password.isNotEmpty()) {
+        if(userInfo.id.isNotEmpty() && userInfo.password.isNotEmpty()) {
             navigateToHome()
         } else {
             navigateToLogin()

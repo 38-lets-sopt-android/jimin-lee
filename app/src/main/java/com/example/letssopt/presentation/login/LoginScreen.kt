@@ -75,9 +75,9 @@ fun LoginRoute(
     }
 
     LoginScreen(
-        email = uiState.email,
+        id = uiState.id,
         password = uiState.password,
-        onEmailChange = viewModel::updateEmailText,
+        onIdChange = viewModel::updateIdText,
         onPasswordChange = viewModel::updatePasswordText,
         onSignUpTxtClick = navigateToSignUp,
         onLoginBtnClick = viewModel::validateLogin,
@@ -87,9 +87,9 @@ fun LoginRoute(
 
 @Composable
 private fun LoginScreen(
-    email: String,
+    id: String,
     password: String,
-    onEmailChange: (String) -> Unit,
+    onIdChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onSignUpTxtClick: () -> Unit,
     onLoginBtnClick: () -> Unit,
@@ -121,20 +121,20 @@ private fun LoginScreen(
             Spacer(modifier = Modifier.height(26.dp))
 
             ScreenText(
-                text = "이메일로 로그인",
+                text = "아이디로 로그인",
                 modifier = Modifier.fillMaxWidth(),
             )
 
             Spacer(modifier = Modifier.height(36.dp))
 
             LetsSoptTextField(
-                title = "이메일",
-                value = email,
-                onValueChange = onEmailChange,
-                placeholder = "이메일 주소를 입력하세요",
+                title = "아이디",
+                value = id,
+                onValueChange = onIdChange,
+                placeholder = "아이디를 입력하세요",
                 modifier = Modifier,
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Email,
+                    keyboardType = KeyboardType.Text,
                     imeAction = ImeAction.Next,
                 ),
                 keyboardActions = KeyboardActions(
@@ -191,14 +191,14 @@ private fun LoginScreen(
 @Composable
 private fun LoginScreenPreview() {
 
-    var email by remember { mutableStateOf("") }
+    var id by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
     LETSSOPTTheme {
         LoginScreen(
-            email = email,
+            id = id,
             password = password,
-            onEmailChange = { email = it },
+            onIdChange = { id = it },
             onPasswordChange = { password = it },
             onSignUpTxtClick = {},
             onLoginBtnClick = {},

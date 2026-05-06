@@ -23,27 +23,27 @@ class SignUpViewModel(
     val sideEffect = _sideEffect.receiveAsFlow()
 
     val isBtnEnabled: Boolean
-        get() = uiState.value.email.isNotEmpty() &&
+        get() = uiState.value.id.isNotEmpty() &&
                 uiState.value.password.isNotEmpty() &&
                 uiState.value.passwordConfirm.isNotEmpty()
 
     fun checkValidation() = viewModelScope.launch {
-        val email = _uiState.value.email
+        val id = _uiState.value.id
         val password = _uiState.value.password
         val passwordConfirm = _uiState.value.passwordConfirm
 
-        val isEmailValid = email.matches(EMAIL_REGEX)
+        val isIdValid = id.matches(ID_REGEX)
         val isPasswordValid = password.length in 8..12
         val isPasswordMatch = password == passwordConfirm
 
 
         when {
-            !isEmailValid -> _sideEffect.send(OnShowToast("이메일 형식이 잘못되었습니다"))
+            !isIdValid -> _sideEffect.send(OnShowToast("아이디는 영어,숫자,기호(._%+-)만 입력해주세요"))
             !isPasswordValid -> _sideEffect.send(OnShowToast("비밀번호는 8~12자로 입력해주세요"))
             !isPasswordMatch -> _sideEffect.send(OnShowToast("비밀번호가 일치하지 않습니다"))
             else -> {
                 preferences.setUserInfo(
-                    email = email,
+                    id = id,
                     password = password,
                 )
                 _sideEffect.send(OnShowToast("회원가입이 완료되었습니다."))
@@ -52,8 +52,8 @@ class SignUpViewModel(
         }
     }
 
-    fun updateEmailText(newEmail: String) {
-        _uiState.update { it.copy(email = newEmail) }
+    fun updateIdText(newId: String) {
+        _uiState.update { it.copy(id = newId) }
     }
 
     fun updatePasswordText(newPW: String) {
@@ -65,6 +65,6 @@ class SignUpViewModel(
     }
 
     companion object {
-        private val EMAIL_REGEX = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
+        private val ID_REGEX = Regex("^[a-zA-Z0-9._%+-]+$")
     }
 }

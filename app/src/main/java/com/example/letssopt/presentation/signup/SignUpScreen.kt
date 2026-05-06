@@ -69,10 +69,10 @@ fun SignUpRoute(
     }
     SignUpScreen(
         isBtnEnabled = viewModel.isBtnEnabled,
-        email = uiState.email,
+        id = uiState.id,
         password = uiState.password,
         passwordConfirm = uiState.passwordConfirm,
-        onEmailChange = viewModel::updateEmailText,
+        onIdChange = viewModel::updateIdText,
         onPasswordChange = viewModel::updatePasswordText,
         onPasswordConfirmChange = viewModel::updatePasswordConfirmText,
         onSignUpBtnClick = viewModel::checkValidation,
@@ -83,10 +83,10 @@ fun SignUpRoute(
 @Composable
 private fun SignUpScreen(
     isBtnEnabled: Boolean,
-    email: String,
+    id: String,
     password: String,
     passwordConfirm: String,
-    onEmailChange: (String) -> Unit,
+    onIdChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onPasswordConfirmChange: (String) -> Unit,
     onSignUpBtnClick: () -> Unit,
@@ -125,10 +125,10 @@ private fun SignUpScreen(
             Spacer(modifier = Modifier.height(36.dp))
 
             LetsSoptTextField(
-                title = "이메일",
-                value = email,
-                onValueChange = onEmailChange,
-                placeholder = "이메일 주소를 입력하세요",
+                title = "아이디",
+                value = id,
+                onValueChange = onIdChange,
+                placeholder = "아이디를 입력하세요",
                 modifier = Modifier,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 keyboardActions = KeyboardActions(
@@ -188,17 +188,17 @@ private fun SignUpScreen(
 @Composable
 private fun SignUpScreenPreview() {
 
-    var email by remember { mutableStateOf("") }
+    var id by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordConfirm by remember { mutableStateOf("") }
 
     LETSSOPTTheme {
         SignUpScreen(
             isBtnEnabled = true,
-            email = email,
+            id = id,
             password = password,
             passwordConfirm = passwordConfirm,
-            onEmailChange = { email = it },
+            onIdChange = { id = it },
             onPasswordChange = { password = it },
             onPasswordConfirmChange = { passwordConfirm = it },
             onSignUpBtnClick = {},
