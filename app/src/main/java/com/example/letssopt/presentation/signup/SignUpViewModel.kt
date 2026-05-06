@@ -64,6 +64,22 @@ class SignUpViewModel(
         _uiState.update { it.copy(passwordConfirm = newPWConfirm) }
     }
 
+    fun updateNameText(newName: String) {
+        _uiState.update { it.copy(name = newName) }
+    }
+
+    fun updateEmailText(newEmail: String) {
+        _uiState.update { it.copy(email = newEmail) }
+    }
+
+    fun updateAgeText(newAge: String) {
+        _uiState.update { it.copy(age = newAge) }
+    }
+
+    fun updatePartText(newPart: String) {
+        _uiState.update { it.copy(part = newPart) }
+    }
+
     companion object {
         private val ID_REGEX = Regex("^[a-zA-Z0-9._%+-]+$")
     }

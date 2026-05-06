@@ -70,12 +70,14 @@ fun SignUpRoute(
     }
     SignUpScreen(
         isBtnEnabled = viewModel.isBtnEnabled,
-        id = uiState.id,
-        password = uiState.password,
-        passwordConfirm = uiState.passwordConfirm,
+        uiState = uiState,
         onIdChange = viewModel::updateIdText,
         onPasswordChange = viewModel::updatePasswordText,
         onPasswordConfirmChange = viewModel::updatePasswordConfirmText,
+        onNameChange = viewModel::updateNameText,
+        onEmailChange = viewModel::updateEmailText,
+        onAgeChange = viewModel::updateAgeText,
+        onPartChange = viewModel::updatePartText,
         onSignUpBtnClick = viewModel::checkValidation,
         modifier = modifier,
     )
@@ -84,12 +86,14 @@ fun SignUpRoute(
 @Composable
 private fun SignUpScreen(
     isBtnEnabled: Boolean,
-    id: String,
-    password: String,
-    passwordConfirm: String,
+    uiState: SignUpContract.State,
     onIdChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onPasswordConfirmChange: (String) -> Unit,
+    onNameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onAgeChange: (String) -> Unit,
+    onPartChange: (String) -> Unit,
     onSignUpBtnClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -128,7 +132,7 @@ private fun SignUpScreen(
 
             LetsSoptTextField(
                 title = "아이디",
-                value = id,
+                value = uiState.id,
                 onValueChange = onIdChange,
                 placeholder = "아이디를 입력하세요",
                 modifier = Modifier,
@@ -144,7 +148,7 @@ private fun SignUpScreen(
 
             LetsSoptTextField(
                 title = "비밀번호",
-                value = password,
+                value = uiState.password,
                 onValueChange = onPasswordChange,
                 placeholder = "비밀번호를 입력하세요",
                 modifier = Modifier,
@@ -161,7 +165,7 @@ private fun SignUpScreen(
 
             LetsSoptTextField(
                 title = "비밀번호 확인",
-                value = passwordConfirm,
+                value = uiState.passwordConfirm,
                 onValueChange = onPasswordConfirmChange,
                 placeholder = "비밀번호를 다시 입력하세요",
                 modifier = Modifier,
@@ -178,8 +182,8 @@ private fun SignUpScreen(
 
             LetsSoptTextField(
                 title = "이름",
-                value = passwordConfirm,
-                onValueChange = onPasswordConfirmChange,
+                value = uiState.name,
+                onValueChange = onNameChange,
                 placeholder = "이름을 입력하세요",
                 modifier = Modifier,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
@@ -194,8 +198,8 @@ private fun SignUpScreen(
 
             LetsSoptTextField(
                 title = "이메일",
-                value = passwordConfirm,
-                onValueChange = onPasswordConfirmChange,
+                value = uiState.email,
+                onValueChange = onEmailChange,
                 placeholder = "이메일을 입력하세요",
                 modifier = Modifier,
                 keyboardOptions = KeyboardOptions(
@@ -213,8 +217,8 @@ private fun SignUpScreen(
 
             LetsSoptTextField(
                 title = "나이",
-                value = passwordConfirm,
-                onValueChange = onPasswordConfirmChange,
+                value = uiState.age,
+                onValueChange = onAgeChange,
                 placeholder = "나이를 입력하세요",
                 modifier = Modifier,
                 keyboardOptions = KeyboardOptions(
@@ -232,8 +236,8 @@ private fun SignUpScreen(
 
             LetsSoptTextField(
                 title = "파트",
-                value = passwordConfirm,
-                onValueChange = onPasswordConfirmChange,
+                value = uiState.part,
+                onValueChange = onPartChange,
                 placeholder = "파트를 입력하세요",
                 modifier = Modifier,
                 keyboardOptions = KeyboardOptions(
@@ -266,16 +270,22 @@ private fun SignUpScreenPreview() {
     var id by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordConfirm by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var age by remember { mutableStateOf("") }
+    var part by remember { mutableStateOf("") }
 
     LETSSOPTTheme {
         SignUpScreen(
             isBtnEnabled = true,
-            id = id,
-            password = password,
-            passwordConfirm = passwordConfirm,
+            uiState = SignUpContract.State(),
             onIdChange = { id = it },
             onPasswordChange = { password = it },
             onPasswordConfirmChange = { passwordConfirm = it },
+            onNameChange = { name = it },
+            onEmailChange = { email = it },
+            onAgeChange = { age = it },
+            onPartChange = { part = it },
             onSignUpBtnClick = {},
         )
     }
