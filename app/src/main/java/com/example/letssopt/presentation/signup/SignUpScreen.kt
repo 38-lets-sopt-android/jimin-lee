@@ -26,6 +26,7 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -109,6 +110,7 @@ private fun SignUpScreen(
         Column(
             modifier = Modifier
                 .weight(1f)
+                .padding(bottom = 36.dp)
                 .verticalScroll(scrollState),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -164,6 +166,79 @@ private fun SignUpScreen(
                 placeholder = "비밀번호를 다시 입력하세요",
                 modifier = Modifier,
                 visualTransformation = passwordVisualTransformation,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusManager.moveFocus(focusDirection = FocusDirection.Down)
+                    }
+                ),
+            )
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            LetsSoptTextField(
+                title = "이름",
+                value = passwordConfirm,
+                onValueChange = onPasswordConfirmChange,
+                placeholder = "이름을 입력하세요",
+                modifier = Modifier,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusManager.moveFocus(focusDirection = FocusDirection.Down)
+                    }
+                ),
+            )
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            LetsSoptTextField(
+                title = "이메일",
+                value = passwordConfirm,
+                onValueChange = onPasswordConfirmChange,
+                placeholder = "이메일을 입력하세요",
+                modifier = Modifier,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next,
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusManager.moveFocus(focusDirection = FocusDirection.Down)
+                    }
+                ),
+            )
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            LetsSoptTextField(
+                title = "나이",
+                value = passwordConfirm,
+                onValueChange = onPasswordConfirmChange,
+                placeholder = "나이를 입력하세요",
+                modifier = Modifier,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next,
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusManager.moveFocus(focusDirection = FocusDirection.Down)
+                    }
+                ),
+            )
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            LetsSoptTextField(
+                title = "파트",
+                value = passwordConfirm,
+                onValueChange = onPasswordConfirmChange,
+                placeholder = "파트를 입력하세요",
+                modifier = Modifier,
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done,
+                ),
                 keyboardActions = KeyboardActions(
                     onDone = {
                         focusManager.clearFocus()
