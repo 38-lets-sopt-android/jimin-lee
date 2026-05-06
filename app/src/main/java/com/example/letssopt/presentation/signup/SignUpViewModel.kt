@@ -25,22 +25,39 @@ class SignUpViewModel(
     val isBtnEnabled: Boolean
         get() = uiState.value.id.isNotEmpty() &&
                 uiState.value.password.isNotEmpty() &&
-                uiState.value.passwordConfirm.isNotEmpty()
+                uiState.value.passwordConfirm.isNotEmpty() &&
+                uiState.value.name.isNotEmpty() &&
+                uiState.value.email.isNotEmpty() &&
+                uiState.value.age.isNotEmpty() &&
+                uiState.value.part.isNotEmpty()
 
     fun checkValidation() = viewModelScope.launch {
-        val id = _uiState.value.id
-        val password = _uiState.value.password
-        val passwordConfirm = _uiState.value.passwordConfirm
+        val state = _uiState.value
+        val id = state.id
+        val password = state.password
+        val passwordConfirm = state.passwordConfirm
+        val name = state.name
+        val email = state.email
+        val age = state.age.toInt()
+        val part = state.part
 
-        val isIdValid = id.matches(ID_REGEX)
-        val isPasswordValid = password.length in 8..12
+        val isIdValid = id.length in 4..20
+        val isPasswordValid = password.length in 8..20
         val isPasswordMatch = password == passwordConfirm
+        val isNameValid = name.length in 1..10
+        val isEmailValid = email.matches(EMAIL_REGEX)
+        val isAgeValid = age in 1..150
+        val isPartValid = part == "iOS" || part == "안드로이드" || part == "웹"
 
 
         when {
-            !isIdValid -> _sideEffect.send(OnShowToast("아이디는 영어,숫자,기호(._%+-)만 입력해주세요"))
-            !isPasswordValid -> _sideEffect.send(OnShowToast("비밀번호는 8~12자로 입력해주세요"))
+            !isIdValid -> _sideEffect.send(OnShowToast("아이디는 4~20자로 입력해주세요"))
+            !isPasswordValid -> _sideEffect.send(OnShowToast("비밀번호는 8~20자로 입력해주세요"))
             !isPasswordMatch -> _sideEffect.send(OnShowToast("비밀번호가 일치하지 않습니다"))
+            !isNameValid -> _sideEffect.send(OnShowToast("이름은 10자 이하로 입력해주세요"))
+            !isEmailValid -> _sideEffect.send(OnShowToast("이메일 형식이 올바르지 않습니다"))
+            !isAgeValid -> _sideEffect.send(OnShowToast("나이는 1 이상, 150 이하로 입력해주세요"))
+            !isPartValid -> _sideEffect.send(OnShowToast("파트는 iOS, 안드로이드, 웹 중 하나로 입력해주세요"))
             else -> {
                 preferences.setUserInfo(
                     id = id,
@@ -81,6 +98,6 @@ class SignUpViewModel(
     }
 
     companion object {
-        private val ID_REGEX = Regex("^[a-zA-Z0-9._%+-]+$")
+        private val EMAIL_REGEX = Regex("^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$")
     }
 }
