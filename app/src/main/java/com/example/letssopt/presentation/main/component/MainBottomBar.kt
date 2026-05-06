@@ -1,6 +1,11 @@
 package com.example.letssopt.presentation.main.component
 
 import androidx.annotation.DrawableRes
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.slideIn
+import androidx.compose.animation.slideOut
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,6 +27,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.extension.noRippleClickable
@@ -29,37 +35,45 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toImmutableList
 
 @Composable
-fun LetsSoptBottomBar(
+fun MainBottomBar(
+    isVisible: Boolean,
     items: ImmutableList<MainTab>,
-    selectedItem: MainTab,
+    selectedItem: MainTab?,
     onItemSelected: (MainTab) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .background(
-                color = LETSSOPTTheme.colors.background,
-            )
-            .padding(top = 15.dp, bottom = 12.dp)
-            .padding(horizontal = 18.dp),
-        horizontalArrangement = Arrangement.spacedBy(21.dp),
-        verticalAlignment = Alignment.CenterVertically,
+    AnimatedVisibility(
+        visible = isVisible,
+        enter = fadeIn() + slideIn { IntOffset(0, it.height) },
+        exit = fadeOut() + slideOut { IntOffset(0, it.height) },
     ) {
-        items.forEach { item ->
-            BottomBarItem(
-                icon = item.icon,
-                label = item.label,
-                modifier = Modifier
-                    .weight(1f)
-                    .noRippleClickable(
-                        onClick = { onItemSelected(item) }
-                    ),
-                isSelected = selectedItem == item
-            )
+        Row(
+            modifier = modifier
+                .fillMaxWidth()
+                .background(
+                    color = LETSSOPTTheme.colors.background,
+                )
+                .padding(top = 15.dp, bottom = 12.dp)
+                .padding(horizontal = 18.dp),
+            horizontalArrangement = Arrangement.spacedBy(21.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            items.forEach { item ->
+                BottomBarItem(
+                    icon = item.icon,
+                    label = item.label,
+                    modifier = Modifier
+                        .weight(1f)
+                        .noRippleClickable(
+                            onClick = { onItemSelected(item) }
+                        ),
+                    isSelected = selectedItem == item
+                )
+            }
         }
     }
 }
+
 
 @Composable
 private fun BottomBarItem(
@@ -95,11 +109,12 @@ private fun BottomBarItem(
 
 @Preview
 @Composable
-private fun LetsSoptBottomBarPreview() {
+private fun MainBottomBarPreview() {
     LETSSOPTTheme {
         var selectedItem by remember { mutableStateOf(MainTab.HOME) }
 
-        LetsSoptBottomBar(
+        MainBottomBar(
+            isVisible = true,
             items = MainTab.entries.toImmutableList(),
             selectedItem = MainTab.HOME,
             onItemSelected = { selectedItem = it },

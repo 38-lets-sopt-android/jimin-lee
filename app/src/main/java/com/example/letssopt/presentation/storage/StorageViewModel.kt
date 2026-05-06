@@ -1,42 +1,43 @@
 package com.example.letssopt.presentation.storage
 
 import androidx.lifecycle.ViewModel
-import com.example.letssopt.R
-import com.example.letssopt.data.model.ContentItemModel
-import kotlinx.collections.immutable.persistentListOf
+import androidx.lifecycle.viewModelScope
+import com.example.letssopt.data.local.dao.StorageDao
+import com.example.letssopt.data.mapper.toEntity
+import com.example.letssopt.data.model.StorageItemModel
 import kotlinx.collections.immutable.toImmutableList
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.launch
 
-class StorageViewModel : ViewModel() {
+class StorageViewModel(
+    private val storageDao: StorageDao,
+) : ViewModel() {
 
-    private val _uiState = MutableStateFlow(StorageContract.State())
-    val uiState = _uiState.asStateFlow()
+    private val _uiState = storageDao.getStorageItems()
 
-    init {
-        fetchStorageItems()
-    }
-
-    private fun fetchStorageItems() {
-        _uiState.update {
-            it.copy(
-                storageItems =
-                    persistentListOf(
-                        ContentItemModel(1, R.drawable.img_home_1),
-                        ContentItemModel(2, R.drawable.img_home_2),
-                        ContentItemModel(3, R.drawable.img_home_3),
-                        ContentItemModel(4, R.drawable.img_home_1),
+    val uiState = _uiState
+        .map { items ->
+            StorageContract.State(
+                storageItems = items.map { item ->
+                    StorageItemModel(
+                        id = item.id,
+                        title = item.title,
+                        img = item.img,
                     )
+                }.toImmutableList()
             )
+        }
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5000),
+            initialValue = StorageContract.State()
+        )
+
+    fun removeStorageItem(item: StorageItemModel) {
+        viewModelScope.launch {
+            storageDao.deleteStorageItems(item.toEntity())
         }
     }
-
-   fun removeStorageItem(id: Int) {
-        _uiState.update {
-            it.copy(
-                storageItems = it.storageItems.filter { it.id != id }.toImmutableList()
-            )
-        }
-   }
 }

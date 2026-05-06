@@ -7,11 +7,9 @@ interface LoginContract {
         val password: String = "",
     )
 
-    sealed class LoginResult {
-        data object EmptyFailure : LoginResult()
-
-        data object InvalidFailure : LoginResult()
-
-        data object Success : LoginResult()
+    sealed class SideEffect {
+        data class OnShowToast(val message: String) : SideEffect()
+        data object NavigateToHome : SideEffect()
+        data object NavigateToSignUp : SideEffect()
     }
 }

@@ -1,11 +1,13 @@
-package com.example.letssopt.presentation.storage.component
+package com.example.letssopt.presentation.purchase.component
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
@@ -28,9 +30,9 @@ import com.example.letssopt.data.model.StorageItemModel
 private const val ASPECT_RATIO = 2/3f
 
 @Composable
-fun StorageItem(
+fun PurchaseItem(
     item: StorageItemModel,
-    onDeleteClick: () -> Unit,
+    onSaveClick: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
 
@@ -38,14 +40,26 @@ fun StorageItem(
         modifier = modifier.width(100.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ){
-        Image(
-            painter = painterResource(item.img),
-            contentDescription = null,
-            modifier = Modifier
-                .fillMaxWidth()
-                .aspectRatio(ASPECT_RATIO)
-                .clip(RoundedCornerShape(10.dp))
-        )
+        Box {
+            Image(
+                painter = painterResource(item.img),
+                contentDescription = null,
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .aspectRatio(ASPECT_RATIO)
+                    .clip(RoundedCornerShape(10.dp))
+            )
+
+            Icon(
+                imageVector = ImageVector.vectorResource(R.drawable.ic_save),
+                contentDescription = null,
+                modifier = Modifier
+                    .noRippleClickable(onClick = onSaveClick)
+                    .align(Alignment.TopEnd)
+                    .padding(top = 6.dp, end = 6.dp),
+                tint = Color.Unspecified,
+            )
+        }
 
         Spacer(modifier = Modifier.height(6.dp))
 
@@ -53,28 +67,18 @@ fun StorageItem(
             text = item.title,
             modifier = Modifier.align(Alignment.Start),
             color = LETSSOPTTheme.colors.txtPrimary,
-            minLines = 2,
             style = LETSSOPTTheme.typography.body.regular16,
-        )
-
-        Spacer(modifier = Modifier.height(8.dp))
-
-        Icon(
-            imageVector = ImageVector.vectorResource(R.drawable.ic_delete),
-            contentDescription = null,
-            modifier = Modifier.noRippleClickable(onClick = onDeleteClick),
-            tint = Color.Unspecified,
         )
     }
 }
 
 @Preview
 @Composable
-private fun StorageItemPreview() {
+private fun PurchaseItemPreview() {
     LETSSOPTTheme {
-        StorageItem(
-            item = StorageItemModel(id = 1L, title = "이 사랑 통역 되나요", img = R.drawable.img_home_1),
-            onDeleteClick = {},
+        PurchaseItem(
+            item = StorageItemModel(1L, "이 사랑 통역 되나요", R.drawable.img_home_1),
+            onSaveClick = {},
         )
     }
 }

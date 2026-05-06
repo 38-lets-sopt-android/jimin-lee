@@ -1,14 +1,9 @@
 package com.example.letssopt.presentation.signup
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -19,8 +14,8 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,7 +29,10 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.core.designsystem.component.LetsSoptButton
 import com.example.letssopt.core.designsystem.component.LetsSoptTextField
@@ -42,45 +40,33 @@ import com.example.letssopt.core.designsystem.component.text.LogoText
 import com.example.letssopt.core.designsystem.component.text.ScreenText
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.core.extension.toast
-import com.example.letssopt.core.utils.PreferencesUtil
+import com.example.letssopt.presentation.signup.SignUpContract.SideEffect.NavigateToLogin
+import com.example.letssopt.presentation.signup.SignUpContract.SideEffect.OnShowToast
 
-class SignUpActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
-        setContent {
+@Composable
+fun SignUpRoute(
+    navigateToLogin: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val context = LocalContext.current
+    val lifecycleOwner = LocalLifecycleOwner.current
+    val viewModel: SignUpViewModel = viewModel(
+        factory = SignUpViewModelFactory(context)
+    )
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-            LETSSOPTTheme {
-                Scaffold(
-                    modifier = Modifier.fillMaxSize(),
-                    contentWindowInsets = WindowInsets(),
-                ) { innerPadding ->
-                    SignUpRoute(
-                        onSignUpSuccess = {
-                            setResult(RESULT_OK)
-                            finish()
-                        },
-                        onShowToast = { toast(it) },
-                        modifier = Modifier.padding(innerPadding)
-                    )
+    LaunchedEffect(Unit) {
+        lifecycleOwner.lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
+            viewModel.sideEffect.collect { effect ->
+                when (effect) {
+                    is OnShowToast -> {
+                        context.toast(effect.message)
+                    }
+                    NavigateToLogin -> navigateToLogin()
                 }
             }
         }
     }
-}
-
-@Composable
-private fun SignUpRoute(
-    onSignUpSuccess: () -> Unit,
-    onShowToast: (String) -> Unit,
-    modifier: Modifier = Modifier,
-    viewModel: SignUpViewModel = viewModel(),
-) {
-    val context = LocalContext.current
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    val prefs = PreferencesUtil(context)
-
     SignUpScreen(
         isBtnEnabled = viewModel.isBtnEnabled,
         email = uiState.email,
@@ -89,19 +75,7 @@ private fun SignUpRoute(
         onEmailChange = viewModel::updateEmailText,
         onPasswordChange = viewModel::updatePasswordText,
         onPasswordConfirmChange = viewModel::updatePasswordConfirmText,
-        onSignUpBtnClick = {
-            viewModel.checkValidation(
-                onFailure = onShowToast,
-                onSuccess = {
-                    prefs.setUserInfo(
-                        email = uiState.email,
-                        password = uiState.password,
-                    )
-                    onShowToast("회원가입이 완료되었습니다")
-                    onSignUpSuccess()
-                },
-            )
-        },
+        onSignUpBtnClick = viewModel::checkValidation,
         modifier = modifier,
     )
 }

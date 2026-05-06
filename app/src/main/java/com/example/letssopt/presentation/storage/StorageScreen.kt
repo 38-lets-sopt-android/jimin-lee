@@ -13,13 +13,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.R
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
-import com.example.letssopt.data.model.ContentItemModel
+import com.example.letssopt.data.model.StorageItemModel
 import com.example.letssopt.presentation.storage.component.StorageEmpty
 import com.example.letssopt.presentation.storage.component.StorageItem
 import kotlinx.collections.immutable.ImmutableList
@@ -28,8 +29,11 @@ import kotlinx.collections.immutable.persistentListOf
 @Composable
 fun StorageRoute(
     modifier: Modifier = Modifier,
-    viewModel: StorageViewModel = viewModel(),
 ) {
+    val context = LocalContext.current
+    val viewModel:StorageViewModel = viewModel(
+        factory = StorageViewModelFactory(context)
+    )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     StorageScreen(
@@ -41,8 +45,8 @@ fun StorageRoute(
 
 @Composable
 private fun StorageScreen(
-    items: ImmutableList<ContentItemModel>,
-    onDeleteClick: (Int) -> Unit,
+    items: ImmutableList<StorageItemModel>,
+    onDeleteClick: (StorageItemModel) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -74,7 +78,7 @@ private fun StorageScreen(
                 ) { item ->
                     StorageItem(
                         item = item,
-                        onDeleteClick = { onDeleteClick(item.id) },
+                        onDeleteClick = { onDeleteClick(item) },
                     )
                 }
             }
@@ -88,10 +92,10 @@ private fun StorageScreenPreview() {
     LETSSOPTTheme {
         StorageScreen(
             items = persistentListOf(
-                ContentItemModel(1, R.drawable.img_home_1),
-                ContentItemModel(2, R.drawable.img_home_2),
-                ContentItemModel(3, R.drawable.img_home_3),
-                ContentItemModel(4, R.drawable.img_home_1),
+                StorageItemModel(1L, "이 사랑 통역 되나요",R.drawable.img_home_1),
+                StorageItemModel(2L, "이상한일5", R.drawable.img_home_2),
+                StorageItemModel(3L, "하일매리", R.drawable.img_home_3),
+                StorageItemModel(4L, "이 사랑 통역 되나요", R.drawable.img_home_1),
             ),
             onDeleteClick = {},
         )
