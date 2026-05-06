@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
@@ -114,8 +113,8 @@ private fun SignUpScreen(
         Column(
             modifier = Modifier
                 .weight(1f)
-                .padding(bottom = 36.dp)
-                .verticalScroll(scrollState),
+                .verticalScroll(scrollState)
+                .padding(bottom = 36.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -257,8 +256,6 @@ private fun SignUpScreen(
             btnText = "회원가입",
             enabled = isBtnEnabled,
             onClick = onSignUpBtnClick,
-            modifier = Modifier
-                .navigationBarsPadding(),
         )
     }
 }
