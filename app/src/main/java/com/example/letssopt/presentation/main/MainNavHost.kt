@@ -11,6 +11,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.example.letssopt.presentation.home.navigation.homeGraph
 import com.example.letssopt.presentation.login.navigation.loginGraph
+import com.example.letssopt.presentation.profile.navigation.profileGraph
 import com.example.letssopt.presentation.purchase.navigation.purchaseGraph
 import com.example.letssopt.presentation.search.navigation.searchGraph
 import com.example.letssopt.presentation.signup.navigation.signUpGraph
@@ -78,6 +79,11 @@ fun MainNavHost(
         )
 
         storageGraph(
+            navController = navController,
+            innerPadding = innerPadding,
+        )
+
+        profileGraph(
             navController = navController,
             innerPadding = innerPadding,
         )

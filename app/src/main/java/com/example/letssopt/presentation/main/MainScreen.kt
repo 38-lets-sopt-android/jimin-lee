@@ -39,6 +39,7 @@ fun MainScreen(
         topBar = {
             if (isHomeTab) {
                 LetsSoptTopBar(
+                    navigateToProfile = {  },
                     modifier = Modifier.statusBarsPadding(),
                 )
             }
