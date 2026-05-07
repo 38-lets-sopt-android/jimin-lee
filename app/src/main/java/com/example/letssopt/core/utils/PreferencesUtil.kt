@@ -3,7 +3,6 @@ package com.example.letssopt.core.utils
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.example.letssopt.data.model.UserInfo
 
 class PreferencesUtil(
     context: Context,
@@ -12,27 +11,20 @@ class PreferencesUtil(
     private val pref: SharedPreferences =
         context.getSharedPreferences(PrefKeys.PREFERENCE_NAME, Context.MODE_PRIVATE)
 
-    fun setUserInfo(
-        id: String,
-        password: String,
-    ) {
-        pref.edit {
-            putString(PrefKeys.KEY_PREFERENCES_ID, id)
-            putString(PrefKeys.KEY_PREFERENCES_PW, password)
-        }
+    fun setAutoLogin(
+        isAutoLogin: Boolean
+    ) = pref.edit {
+        putBoolean(PrefKeys.KEY_PREFERENCES_AUTO_LOGIN, isAutoLogin)
     }
 
-    fun getUserInfo(): UserInfo {
-        return UserInfo(
-            id = pref.getString(PrefKeys.KEY_PREFERENCES_ID, "") ?: "",
-            password = pref.getString(PrefKeys.KEY_PREFERENCES_PW, "") ?: "",
-        )
+
+    fun getAutoLogin(): Boolean {
+        return pref.getBoolean(PrefKeys.KEY_PREFERENCES_AUTO_LOGIN, false)
     }
 
     object PrefKeys {
         const val PREFERENCE_NAME = "MyPref"
-        const val KEY_PREFERENCES_ID = "idKey"
-        const val KEY_PREFERENCES_PW = "passwordKey"
+        const val KEY_PREFERENCES_AUTO_LOGIN = "auto_login"
     }
 }
 
