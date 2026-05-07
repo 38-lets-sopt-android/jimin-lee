@@ -1,4 +1,4 @@
-package com.example.letssopt.data.mapper.signup
+package com.example.letssopt.data.mapper.auth
 
 import com.example.letssopt.data.model.SignUpModel
 import com.example.letssopt.data.remote.dto.auth.PostSignUpRequestDto
