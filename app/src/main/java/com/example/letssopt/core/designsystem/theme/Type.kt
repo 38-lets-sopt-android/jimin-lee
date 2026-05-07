@@ -42,7 +42,7 @@ sealed interface TypographyTokens {
 
     @Immutable
     data class H3(
-        val semibold20: TextStyle,
+        val bold16: TextStyle,
     ) : TypographyTokens
 
     @Immutable
@@ -138,9 +138,9 @@ val defaultLETSSOPTTypography = LETSSOPTTypography(
         ),
     ),
     h3 = TypographyTokens.H3(
-        semibold20 = LETSSOPTTextStyle(
-            fontFamily = PretendardFont.SemiBold,
-            fontSize = 20.sp,
+        bold16 = LETSSOPTTextStyle(
+            fontFamily = PretendardFont.Bold,
+            fontSize = 16.sp,
         ),
     ),
     subhead1 = TypographyTokens.SubH1(

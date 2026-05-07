@@ -44,7 +44,7 @@ fun HomeUpcomingSection(
             Text(
                 text = "공개 예정 콘텐츠",
                 color = LETSSOPTTheme.colors.txtPrimary,
-                style = LETSSOPTTheme.typography.h3.semibold20,
+                style = LETSSOPTTheme.typography.subhead1.semibold20,
             )
 
             Spacer(modifier = Modifier.weight(1f))

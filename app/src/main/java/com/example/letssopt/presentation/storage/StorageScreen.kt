@@ -57,7 +57,7 @@ private fun StorageScreen(
         Text(
             text = "찜한 목록",
             color = LETSSOPTTheme.colors.txtPrimary,
-            style = LETSSOPTTheme.typography.h3.semibold20
+            style = LETSSOPTTheme.typography.subhead1.semibold20
         )
 
         Spacer(modifier = Modifier.height(35.dp))

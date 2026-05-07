@@ -49,7 +49,7 @@ fun HomePartySection(
             Text(
                 text = "왓챠 파티",
                 color = LETSSOPTTheme.colors.txtPrimary,
-                style = LETSSOPTTheme.typography.h3.semibold20,
+                style = LETSSOPTTheme.typography.subhead1.semibold20,
             )
 
             Spacer(modifier = Modifier.weight(1f))
