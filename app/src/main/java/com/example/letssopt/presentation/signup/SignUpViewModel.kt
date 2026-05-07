@@ -2,7 +2,10 @@ package com.example.letssopt.presentation.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.letssopt.core.utils.PreferencesUtil
+import com.example.letssopt.data.mapper.signup.toPostSignUpRequestDto
+import com.example.letssopt.data.model.SignUpModel
+import com.example.letssopt.data.remote.dto.toErrorResponse
+import com.example.letssopt.data.remote.repository.AuthRepository
 import com.example.letssopt.presentation.signup.SignUpContract.SideEffect.NavigateToLogin
 import com.example.letssopt.presentation.signup.SignUpContract.SideEffect.OnShowToast
 import kotlinx.coroutines.channels.Channel
@@ -13,7 +16,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class SignUpViewModel(
-    private val preferences: PreferencesUtil,
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SignUpContract.State())
@@ -59,12 +62,27 @@ class SignUpViewModel(
             !isAgeValid -> _sideEffect.send(OnShowToast("나이는 1 이상, 150 이하로 입력해주세요"))
             !isPartValid -> _sideEffect.send(OnShowToast("파트는 iOS, 안드로이드, 웹 중 하나로 입력해주세요"))
             else -> {
-                preferences.setUserInfo(
+                val request = SignUpModel(
                     id = id,
                     password = password,
-                )
-                _sideEffect.send(OnShowToast("회원가입이 완료되었습니다."))
-                _sideEffect.send(NavigateToLogin)
+                    name = name,
+                    email = email,
+                    age = age,
+                    part = part,
+                ).toPostSignUpRequestDto()
+                authRepository.postSignUp(request)
+                    .onSuccess {
+                        _sideEffect.send(OnShowToast("회원가입이 완료되었습니다."))
+                        _sideEffect.send(NavigateToLogin)
+                    }
+                    .onFailure { error ->
+                        val errorStatus = error.toErrorResponse()
+                        when(errorStatus) {
+                            400 -> _sideEffect.send(OnShowToast("유효하지 않은 파트입니다."))
+                            409 -> _sideEffect.send(OnShowToast("이미 사용 중인 아이디입니다."))
+                            else -> _sideEffect.send(OnShowToast("$errorStatus"))
+                        }
+                    }
             }
         }
     }
