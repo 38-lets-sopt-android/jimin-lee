@@ -51,7 +51,7 @@ fun SignUpRoute(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val viewModel: SignUpViewModel = viewModel(
-        factory = SignUpViewModelFactory()
+        factory = SignUpViewModelFactory(context)
     )
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 

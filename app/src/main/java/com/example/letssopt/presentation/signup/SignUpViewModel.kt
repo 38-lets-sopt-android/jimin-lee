@@ -2,7 +2,7 @@ package com.example.letssopt.presentation.signup
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.letssopt.data.mapper.signup.toPostSignUpRequestDto
+import com.example.letssopt.data.mapper.auth.toPostSignUpRequestDto
 import com.example.letssopt.data.model.SignUpModel
 import com.example.letssopt.data.remote.dto.toErrorResponse
 import com.example.letssopt.data.remote.repository.AuthRepository
