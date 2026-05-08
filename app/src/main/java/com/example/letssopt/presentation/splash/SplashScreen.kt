@@ -25,7 +25,7 @@ fun SplashRoute(
 
     LaunchedEffect(Unit) {
         delay(2000L)
-        if(prefs.getAutoLogin()) {
+        if(prefs.getAutoLogin() && prefs.getUserId() != -1) {
             navigateToHome()
         } else {
             navigateToLogin()
