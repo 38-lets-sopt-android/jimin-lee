@@ -4,14 +4,14 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.letssopt.data.remote.dto.toErrorResponse
-import com.example.letssopt.data.remote.repository.ProfileRepository
+import com.example.letssopt.data.remote.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class ProfileViewModel(
-    private val profileRepository: ProfileRepository,
+    private val userRepository: UserRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ProfileContract.State())
@@ -22,7 +22,7 @@ class ProfileViewModel(
     }
 
     fun fetchProfileInfo() = viewModelScope.launch {
-        profileRepository.getUserInfo()
+        userRepository.getUserInfo()
             .onSuccess { userInfo ->
                 _uiState.update { currentState ->
                     currentState.copy(

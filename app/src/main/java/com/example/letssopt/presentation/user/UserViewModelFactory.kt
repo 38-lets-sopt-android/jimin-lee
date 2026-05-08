@@ -3,6 +3,7 @@ package com.example.letssopt.presentation.user
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.example.letssopt.core.utils.PreferencesUtil
 import com.example.letssopt.data.remote.RetrofitClient
 import com.example.letssopt.data.remote.datasource.UserRemoteDataSourceImpl
 import com.example.letssopt.data.remote.repository.UserRepositoryImpl
@@ -15,7 +16,7 @@ class UserViewModelFactory(
             @Suppress("UNCHECKED_CAST")
             return UserViewModel(
                 UserRepositoryImpl(
-                    UserRemoteDataSourceImpl(RetrofitClient.userService)
+                    PreferencesUtil(context), UserRemoteDataSourceImpl(RetrofitClient.userService)
                 )
             ) as T
         }

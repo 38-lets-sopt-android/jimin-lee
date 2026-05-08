@@ -1,4 +1,4 @@
-package com.example.letssopt.data.remote.dto.profile
+package com.example.letssopt.data.remote.dto.user
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable

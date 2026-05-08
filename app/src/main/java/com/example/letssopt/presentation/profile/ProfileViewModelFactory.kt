@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.letssopt.core.utils.PreferencesUtil
 import com.example.letssopt.data.remote.RetrofitClient
-import com.example.letssopt.data.remote.datasource.ProfileRemoteDataSourceImpl
-import com.example.letssopt.data.remote.repository.ProfileRepositoryImpl
+import com.example.letssopt.data.remote.datasource.UserRemoteDataSourceImpl
+import com.example.letssopt.data.remote.repository.UserRepositoryImpl
 
 class ProfileViewModelFactory(
     private val context: Context
@@ -15,9 +15,9 @@ class ProfileViewModelFactory(
         if (modelClass.isAssignableFrom(ProfileViewModel::class.java)) {
             @Suppress("UNCHECKED_CAST")
             return ProfileViewModel(
-                ProfileRepositoryImpl(
+                UserRepositoryImpl(
                     PreferencesUtil(context),
-                    ProfileRemoteDataSourceImpl(RetrofitClient.profileService)
+                    UserRemoteDataSourceImpl(RetrofitClient.userService)
                 )
             ) as T
         }

@@ -1,7 +1,7 @@
-package com.example.letssopt.data.mapper.profile
+package com.example.letssopt.data.mapper.user
 
 import com.example.letssopt.data.model.ProfileModel
-import com.example.letssopt.data.remote.dto.profile.GetUserInfoResponseDto
+import com.example.letssopt.data.remote.dto.user.GetUserInfoResponseDto
 
 fun GetUserInfoResponseDto.toProfileModel() = ProfileModel(
     id = this.id,
