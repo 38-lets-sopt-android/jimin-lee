@@ -10,6 +10,7 @@ import androidx.navigation.compose.composable
 import com.example.letssopt.core.extension.clearBackStackNavOptions
 import com.example.letssopt.core.navigation.MainTabRoute
 import com.example.letssopt.presentation.home.HomeRoute
+import com.example.letssopt.presentation.profile.navigation.navigateToProfile
 import kotlinx.serialization.Serializable
 
 fun NavController.navigateToHome(
@@ -27,6 +28,7 @@ fun NavGraphBuilder.homeGraph(
 ) {
     composable<Home> {
         HomeRoute(
+            navigateToProfile = navController::navigateToProfile,
             modifier = Modifier.padding(innerPadding)
         )
     }
