@@ -8,9 +8,13 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.letssopt.core.designsystem.component.LetsSoptButton
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.presentation.profile.component.ProfileLabeledText
@@ -19,7 +23,15 @@ import com.example.letssopt.presentation.profile.component.ProfileLabeledText
 fun ProfileRoute(
     modifier: Modifier = Modifier,
 ) {
+    val context = LocalContext.current
+    val viewModel: ProfileViewModel = viewModel(
+        factory = ProfileViewModelFactory(context)
+    )
+    
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
     ProfileScreen(
+        uiState = uiState,
         modifier = modifier,
     )
 }
@@ -27,6 +39,7 @@ fun ProfileRoute(
 
 @Composable
 fun ProfileScreen(
+    uiState: ProfileContract.State,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -49,35 +62,35 @@ fun ProfileScreen(
 
         ProfileLabeledText(
             label = "아이디",
-            content = "ㅇㅇ"
+            content = uiState.id
         )
 
         Spacer(modifier = Modifier.height(30.dp))
 
         ProfileLabeledText(
             label = "이름",
-            content = "ㅇㅇ"
+            content = uiState.name
         )
 
         Spacer(modifier = Modifier.height(30.dp))
 
         ProfileLabeledText(
             label = "이메일",
-            content = "ㅇㅇ"
+            content = uiState.email
         )
 
         Spacer(modifier = Modifier.height(30.dp))
 
         ProfileLabeledText(
             label = "나이",
-            content = "ㅇㅇ"
+            content = uiState.age
         )
 
         Spacer(modifier = Modifier.height(30.dp))
 
         ProfileLabeledText(
             label = "파트",
-            content = "ㅇㅇ"
+            content = uiState.part
         )
 
         Spacer(modifier = Modifier.height(30.dp))
@@ -97,6 +110,8 @@ fun ProfileScreen(
 @Composable
 private fun ProfileScreenPreview() {
     LETSSOPTTheme {
-        ProfileScreen()
+        ProfileScreen(
+            uiState = ProfileContract.State(),
+        )
     }
 }
