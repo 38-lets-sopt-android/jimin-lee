@@ -26,7 +26,7 @@ class ProfileViewModel(
             .onSuccess { userInfo ->
                 _uiState.update { currentState ->
                     currentState.copy(
-                        id = userInfo.id.toString(),
+                        id = userInfo.loginId,
                         name = userInfo.name,
                         email = userInfo.email,
                         age = userInfo.age.toString(),
