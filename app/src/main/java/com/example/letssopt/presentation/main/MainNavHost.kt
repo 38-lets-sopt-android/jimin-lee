@@ -17,6 +17,7 @@ import com.example.letssopt.presentation.search.navigation.searchGraph
 import com.example.letssopt.presentation.signup.navigation.signUpGraph
 import com.example.letssopt.presentation.splash.navigation.splashGraph
 import com.example.letssopt.presentation.storage.navigation.storageGraph
+import com.example.letssopt.presentation.user.navigation.userGraph
 import com.example.letssopt.presentation.webtoon.navigation.webtoonGraph
 
 @Composable
@@ -84,6 +85,11 @@ fun MainNavHost(
         )
 
         profileGraph(
+            navController = navController,
+            innerPadding = innerPadding,
+        )
+
+        userGraph(
             navController = navController,
             innerPadding = innerPadding,
         )

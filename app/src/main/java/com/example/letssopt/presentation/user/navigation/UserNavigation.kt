@@ -1,4 +1,4 @@
-package com.example.letssopt.presentation.profile.navigation
+package com.example.letssopt.presentation.user.navigation
 
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.padding
@@ -8,30 +8,28 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
 import com.example.letssopt.core.navigation.Route
-import com.example.letssopt.presentation.profile.ProfileRoute
-import com.example.letssopt.presentation.user.navigation.navigateToUser
+import com.example.letssopt.presentation.user.UserRoute
 import kotlinx.serialization.Serializable
 
-fun NavController.navigateToProfile(
+fun NavController.navigateToUser(
     navOptions: NavOptions? = null,
 ){
     navigate(
-        route = Profile,
+        route = User,
         navOptions = navOptions,
     )
 }
 
-fun NavGraphBuilder.profileGraph(
+fun NavGraphBuilder.userGraph(
     navController: NavController,
     innerPadding: PaddingValues,
 ) {
-    composable<Profile> {
-        ProfileRoute(
-            navigateToUser = navController::navigateToUser,
+    composable<User> {
+        UserRoute(
             modifier = Modifier.padding(innerPadding),
         )
     }
 }
 
 @Serializable
-data object Profile : Route
+data object User : Route

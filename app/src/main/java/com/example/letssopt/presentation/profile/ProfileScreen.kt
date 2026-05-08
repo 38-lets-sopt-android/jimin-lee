@@ -21,6 +21,7 @@ import com.example.letssopt.presentation.profile.component.ProfileLabeledText
 
 @Composable
 fun ProfileRoute(
+    navigateToUser: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     val context = LocalContext.current
@@ -32,6 +33,7 @@ fun ProfileRoute(
 
     ProfileScreen(
         uiState = uiState,
+        navigateToUser = navigateToUser,
         modifier = modifier,
     )
 }
@@ -40,6 +42,7 @@ fun ProfileRoute(
 @Composable
 fun ProfileScreen(
     uiState: ProfileContract.State,
+    navigateToUser: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -98,7 +101,7 @@ fun ProfileScreen(
         LetsSoptButton(
             btnText = "다른 유저들 보러가기",
             enabled = true,
-            onClick = {},
+            onClick = navigateToUser,
             isAuthScreen = false,
         )
 
@@ -112,6 +115,7 @@ private fun ProfileScreenPreview() {
     LETSSOPTTheme {
         ProfileScreen(
             uiState = ProfileContract.State(),
+            navigateToUser = {},
         )
     }
 }
