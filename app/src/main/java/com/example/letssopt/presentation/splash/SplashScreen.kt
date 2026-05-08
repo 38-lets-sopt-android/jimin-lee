@@ -22,11 +22,10 @@ fun SplashRoute(
 ) {
     val context = LocalContext.current
     val prefs = PreferencesUtil(context)
-    val userInfo = prefs.getUserInfo()
 
     LaunchedEffect(Unit) {
         delay(2000L)
-        if(userInfo.email.isNotEmpty() && userInfo.password.isNotEmpty()) {
+        if(prefs.getAutoLogin() && prefs.getUserId() != -1) {
             navigateToHome()
         } else {
             navigateToLogin()

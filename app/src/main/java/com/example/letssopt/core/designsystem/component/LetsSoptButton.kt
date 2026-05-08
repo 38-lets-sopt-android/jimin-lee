@@ -23,6 +23,7 @@ fun LetsSoptButton(
     enabled: Boolean,
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
+    isAuthScreen: Boolean = true,
 ) {
 
     Box(
@@ -42,7 +43,7 @@ fun LetsSoptButton(
         Text(
             text = btnText,
             modifier = Modifier,
-            style = LETSSOPTTheme.typography.body.regular16,
+            style = if(isAuthScreen) LETSSOPTTheme.typography.body.regular16 else LETSSOPTTheme.typography.h3.bold16,
             color = if (enabled) LETSSOPTTheme.colors.txtPrimary else LETSSOPTTheme.colors.placeholder
         )
     }

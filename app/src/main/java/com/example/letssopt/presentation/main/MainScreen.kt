@@ -4,13 +4,11 @@ import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
-import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.letssopt.core.designsystem.component.LetsSoptTopBar
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
 import com.example.letssopt.presentation.main.component.MainBottomBar
 import com.example.letssopt.presentation.main.component.MainTab
@@ -36,13 +34,6 @@ fun MainScreen(
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
-        topBar = {
-            if (isHomeTab) {
-                LetsSoptTopBar(
-                    modifier = Modifier.statusBarsPadding(),
-                )
-            }
-        },
         bottomBar = {
             MainBottomBar(
                 isVisible = isBottomBarVisible,

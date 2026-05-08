@@ -1,4 +1,4 @@
-package com.example.letssopt.core.designsystem.component
+package com.example.letssopt.presentation.home.component
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -15,9 +15,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.letssopt.R
 import com.example.letssopt.core.designsystem.theme.LETSSOPTTheme
+import com.example.letssopt.core.extension.noRippleClickable
 
 @Composable
 fun LetsSoptTopBar(
+    navigateToProfile: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     Row(
@@ -42,6 +44,7 @@ fun LetsSoptTopBar(
         Icon(
             imageVector = ImageVector.vectorResource(R.drawable.ic_profile),
             contentDescription = null,
+            modifier = Modifier.noRippleClickable(onClick = navigateToProfile),
             tint = LETSSOPTTheme.colors.txtPrimary,
         )
     }
@@ -51,6 +54,8 @@ fun LetsSoptTopBar(
 @Composable
 private fun LetsSoptTopBarPreview(){
     LETSSOPTTheme{
-        LetsSoptTopBar()
+        LetsSoptTopBar(
+            navigateToProfile = {}
+        )
     }
 }

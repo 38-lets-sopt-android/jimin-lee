@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.imePadding
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardActions
@@ -26,6 +25,7 @@ import androidx.compose.ui.focus.FocusDirection
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -69,12 +69,14 @@ fun SignUpRoute(
     }
     SignUpScreen(
         isBtnEnabled = viewModel.isBtnEnabled,
-        email = uiState.email,
-        password = uiState.password,
-        passwordConfirm = uiState.passwordConfirm,
-        onEmailChange = viewModel::updateEmailText,
+        uiState = uiState,
+        onIdChange = viewModel::updateIdText,
         onPasswordChange = viewModel::updatePasswordText,
         onPasswordConfirmChange = viewModel::updatePasswordConfirmText,
+        onNameChange = viewModel::updateNameText,
+        onEmailChange = viewModel::updateEmailText,
+        onAgeChange = viewModel::updateAgeText,
+        onPartChange = viewModel::updatePartText,
         onSignUpBtnClick = viewModel::checkValidation,
         modifier = modifier,
     )
@@ -83,12 +85,14 @@ fun SignUpRoute(
 @Composable
 private fun SignUpScreen(
     isBtnEnabled: Boolean,
-    email: String,
-    password: String,
-    passwordConfirm: String,
-    onEmailChange: (String) -> Unit,
+    uiState: SignUpContract.State,
+    onIdChange: (String) -> Unit,
     onPasswordChange: (String) -> Unit,
     onPasswordConfirmChange: (String) -> Unit,
+    onNameChange: (String) -> Unit,
+    onEmailChange: (String) -> Unit,
+    onAgeChange: (String) -> Unit,
+    onPartChange: (String) -> Unit,
     onSignUpBtnClick: () -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -109,7 +113,8 @@ private fun SignUpScreen(
         Column(
             modifier = Modifier
                 .weight(1f)
-                .verticalScroll(scrollState),
+                .verticalScroll(scrollState)
+                .padding(bottom = 36.dp),
             verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
@@ -125,10 +130,10 @@ private fun SignUpScreen(
             Spacer(modifier = Modifier.height(36.dp))
 
             LetsSoptTextField(
-                title = "이메일",
-                value = email,
-                onValueChange = onEmailChange,
-                placeholder = "이메일 주소를 입력하세요",
+                title = "아이디",
+                value = uiState.id,
+                onValueChange = onIdChange,
+                placeholder = "아이디를 입력하세요",
                 modifier = Modifier,
                 keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
                 keyboardActions = KeyboardActions(
@@ -142,7 +147,7 @@ private fun SignUpScreen(
 
             LetsSoptTextField(
                 title = "비밀번호",
-                value = password,
+                value = uiState.password,
                 onValueChange = onPasswordChange,
                 placeholder = "비밀번호를 입력하세요",
                 modifier = Modifier,
@@ -159,11 +164,84 @@ private fun SignUpScreen(
 
             LetsSoptTextField(
                 title = "비밀번호 확인",
-                value = passwordConfirm,
+                value = uiState.passwordConfirm,
                 onValueChange = onPasswordConfirmChange,
                 placeholder = "비밀번호를 다시 입력하세요",
                 modifier = Modifier,
                 visualTransformation = passwordVisualTransformation,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusManager.moveFocus(focusDirection = FocusDirection.Down)
+                    }
+                ),
+            )
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            LetsSoptTextField(
+                title = "이름",
+                value = uiState.name,
+                onValueChange = onNameChange,
+                placeholder = "이름을 입력하세요",
+                modifier = Modifier,
+                keyboardOptions = KeyboardOptions(imeAction = ImeAction.Next),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusManager.moveFocus(focusDirection = FocusDirection.Down)
+                    }
+                ),
+            )
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            LetsSoptTextField(
+                title = "이메일",
+                value = uiState.email,
+                onValueChange = onEmailChange,
+                placeholder = "이메일을 입력하세요",
+                modifier = Modifier,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Email,
+                    imeAction = ImeAction.Next,
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusManager.moveFocus(focusDirection = FocusDirection.Down)
+                    }
+                ),
+            )
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            LetsSoptTextField(
+                title = "나이",
+                value = uiState.age,
+                onValueChange = onAgeChange,
+                placeholder = "나이를 입력하세요",
+                modifier = Modifier,
+                keyboardOptions = KeyboardOptions(
+                    keyboardType = KeyboardType.Number,
+                    imeAction = ImeAction.Next,
+                ),
+                keyboardActions = KeyboardActions(
+                    onNext = {
+                        focusManager.moveFocus(focusDirection = FocusDirection.Down)
+                    }
+                ),
+            )
+
+            Spacer(modifier = Modifier.height(18.dp))
+
+            LetsSoptTextField(
+                title = "파트",
+                value = uiState.part,
+                onValueChange = onPartChange,
+                placeholder = "파트를 입력하세요",
+                modifier = Modifier,
+                keyboardOptions = KeyboardOptions(
+                    imeAction = ImeAction.Done,
+                ),
                 keyboardActions = KeyboardActions(
                     onDone = {
                         focusManager.clearFocus()
@@ -178,8 +256,6 @@ private fun SignUpScreen(
             btnText = "회원가입",
             enabled = isBtnEnabled,
             onClick = onSignUpBtnClick,
-            modifier = Modifier
-                .navigationBarsPadding(),
         )
     }
 }
@@ -188,19 +264,25 @@ private fun SignUpScreen(
 @Composable
 private fun SignUpScreenPreview() {
 
-    var email by remember { mutableStateOf("") }
+    var id by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
     var passwordConfirm by remember { mutableStateOf("") }
+    var name by remember { mutableStateOf("") }
+    var email by remember { mutableStateOf("") }
+    var age by remember { mutableStateOf("") }
+    var part by remember { mutableStateOf("") }
 
     LETSSOPTTheme {
         SignUpScreen(
             isBtnEnabled = true,
-            email = email,
-            password = password,
-            passwordConfirm = passwordConfirm,
-            onEmailChange = { email = it },
+            uiState = SignUpContract.State(),
+            onIdChange = { id = it },
             onPasswordChange = { password = it },
             onPasswordConfirmChange = { passwordConfirm = it },
+            onNameChange = { name = it },
+            onEmailChange = { email = it },
+            onAgeChange = { age = it },
+            onPartChange = { part = it },
             onSignUpBtnClick = {},
         )
     }

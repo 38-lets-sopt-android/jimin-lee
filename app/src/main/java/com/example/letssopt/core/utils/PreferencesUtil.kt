@@ -3,7 +3,6 @@ package com.example.letssopt.core.utils
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.core.content.edit
-import com.example.letssopt.data.model.UserInfo
 
 class PreferencesUtil(
     context: Context,
@@ -12,27 +11,27 @@ class PreferencesUtil(
     private val pref: SharedPreferences =
         context.getSharedPreferences(PrefKeys.PREFERENCE_NAME, Context.MODE_PRIVATE)
 
-    fun setUserInfo(
-        email: String,
-        password: String,
-    ) {
-        pref.edit {
-            putString(PrefKeys.KEY_PREFERENCES_EMAIL, email)
-            putString(PrefKeys.KEY_PREFERENCES_PW, password)
-        }
+    fun setAutoLogin(
+        isAutoLogin: Boolean,
+        userId: Int,
+    ) = pref.edit {
+        putBoolean(PrefKeys.KEY_PREFERENCES_AUTO_LOGIN, isAutoLogin)
+        putInt(PrefKeys.KEY_PREFERENCES_USER_ID, userId)
     }
 
-    fun getUserInfo(): UserInfo {
-        return UserInfo(
-            email = pref.getString(PrefKeys.KEY_PREFERENCES_EMAIL, "") ?: "",
-            password = pref.getString(PrefKeys.KEY_PREFERENCES_PW, "") ?: "",
-        )
+
+    fun getAutoLogin(): Boolean {
+        return pref.getBoolean(PrefKeys.KEY_PREFERENCES_AUTO_LOGIN, false)
+    }
+
+    fun getUserId(): Int {
+        return pref.getInt(PrefKeys.KEY_PREFERENCES_USER_ID, -1)
     }
 
     object PrefKeys {
         const val PREFERENCE_NAME = "MyPref"
-        const val KEY_PREFERENCES_EMAIL = "emailKey"
-        const val KEY_PREFERENCES_PW = "passwordKey"
+        const val KEY_PREFERENCES_AUTO_LOGIN = "auto_login"
+        const val KEY_PREFERENCES_USER_ID = "user_id"
     }
 }
 

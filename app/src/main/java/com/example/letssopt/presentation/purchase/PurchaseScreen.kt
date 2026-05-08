@@ -78,7 +78,7 @@ private fun PurchaseScreen(
         Text(
             text = "개별 구매",
             color = LETSSOPTTheme.colors.txtPrimary,
-            style = LETSSOPTTheme.typography.h3.semibold20
+            style = LETSSOPTTheme.typography.subhead1.semibold20
         )
 
         Spacer(modifier = Modifier.height(35.dp))

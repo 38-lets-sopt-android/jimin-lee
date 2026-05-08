@@ -45,7 +45,7 @@ fun HomeNewContentBanner(
             text = "방금 막 도착한 신상 컨텐츠",
             modifier = Modifier.padding(horizontal = 19.dp),
             color = LETSSOPTTheme.colors.txtPrimary,
-            style = LETSSOPTTheme.typography.h3.semibold20,
+            style = LETSSOPTTheme.typography.subhead1.semibold20,
         )
 
         Spacer(modifier = Modifier.height(4.dp))

@@ -1,6 +1,6 @@
 package com.example.letssopt.data.model
 
-data class UserInfo (
-    val email: String,
+data class LoginModel(
+    val id: String,
     val password: String,
 )

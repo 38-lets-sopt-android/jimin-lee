@@ -3,7 +3,7 @@ package com.example.letssopt.presentation.login
 interface LoginContract {
 
     data class State(
-        val email: String = "",
+        val id: String = "",
         val password: String = "",
     )
 
